@@ -1,0 +1,18 @@
+@import '../../assets/sass/colors.scss';
+
+.remove-pfp {
+  color: #8d949e;
+  width: fit-content;
+  margin: auto;
+}
+
+.remove-pfp:hover {
+  color: darken(#8d949e, 15%);
+}
+
+.btn-outline-dark {
+  border-radius: 10rem;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: .15rem;
+}

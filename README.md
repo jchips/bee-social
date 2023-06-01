@@ -1,6 +1,21 @@
-# Getting Started with Create React App
+# Social Posts App
+
+Front-end to MERN full-stack app with CRUD operation that displays posts from multiple users and uses MongoDB to enable users
+to create, update and delete their posts.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Author: Jelani R
+
+## Version: 0.1.0
+
+## Changelog
+
+- 6/1/2023: (0.1.0) Initial commit with Firebase auth set up
+
+## Links and resources
+
+- [Checking if a URL is active](https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript)
 
 ## Available Scripts
 
