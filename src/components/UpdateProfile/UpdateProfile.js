@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Card, Form, InputGroup, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,10 +6,10 @@ import './UpdateProfile.scss';
 
 const UpdateProfile = () => {
   const { currentUser, updateUserProfile } = useAuth();
+  const pfp = useRef(null);
   let [updateProfile] = useState({});
   const [profileImg, setProfileImg] = useState(currentUser.photoURL)
   const [error, setError] = useState('');
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106';
 
@@ -28,23 +27,18 @@ const UpdateProfile = () => {
     const formData = new FormData(form);
     const formObj = Object.fromEntries(formData.entries());
 
+    // Either sets the display name and pfp to the newly submitted profile information
+    // or keeps it as whatever it was before.
     updateProfile.displayName = formObj.displayName || currentUser.displayName;
     updateProfile.photoURL = profileImg;
 
-    // console.log('updateProfile', updateProfile);
-
     try {
       await updateUserProfile(currentUser, updateProfile);
-      await updateUserInDatabase();
-      let updates = await currentUser.reload()
-      console.log('current updated user', updates); // delete later
       navigate('/');
     } catch (err) {
       console.error(err)
       setError('Failed to update profile');
     }
-
-    // navigate('/');
   }
 
   // Removes the profile pic (sets it back to default)
@@ -53,31 +47,21 @@ const UpdateProfile = () => {
   }
 
   /**
-   * Checks if photo URL is an active link, and if it is, updates the pfp to display the image
+   * Sets the profile pic (pfp) to the whatever the user inputs for their photo URL.
    * @param {Event} e - onChange event
    */
   const changePfp = (e) => {
-    checkLink(e.target.value)
-      .then(link => setProfileImg(link ? e.target.value : defaultImage))
-      .catch(err => console.error(err));
+    setProfileImg(e.target.value);
   }
 
-  /**
-   * Checks to make sure link is active
-   * Idea from: https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript
-   * @param {String} url - the photo url it checks
-   * @returns {Boolean} - Whether the link is active or not
+  /** 
+   * Runs if the photo URL doesn't lead to an image or is broken.
+   * Sets the profile pic (pfp) to the default image.
    */
-  const checkLink = async (url) => {
-    try {
-      let response = await fetch(url, {mode: 'cors'});
-      if (response.url.includes('http://localhost')) {
-        return false;
-      }
-      return response.ok;
-    } catch (err) {
-      console.error(err);
-      return false;
+  const handleImageError = () => {
+    if (pfp.current) {
+      pfp.current.src = defaultImage;
+      setProfileImg(defaultImage);
     }
   }
 
@@ -92,57 +76,17 @@ const UpdateProfile = () => {
     return profileImg || 'https://photo-url-example.jpg';
   }
 
-  /**
-   * Fetches all users from MongoDB database so that I can find the user
-   * who is updating their profile.
-   */
-  const fetchAllUsers = () => {
-    let requestURL = `${process.env.REACT_APP_SERVER}/users`;
-    axios.get(requestURL)
-      .then(response => {
-        setError('');
-        setUsers(response.data);
-      })
-      .catch(err => {
-        setError('Could not fetch users');
-        console.error(err);
-      })
-  }
-
-  /**
-   * Finds user in MongoBD database based on their uid.
-   * Updates user information in MongoDB database
-   */
-  const updateUserInDatabase = async () => {
-    console.log('updateProfile', updateProfile);
-    let user = users.find(user => user.uid === currentUser.uid);
-    let requestURL = `${process.env.REACT_APP_SERVER}/users/${user._id}`;
-    let updateUser = {
-      displayName: updateProfile.displayName,
-      photoURL: updateProfile.photoURL
-    }
-    axios.patch(requestURL, updateUser)
-      .then(response => {
-        setError('')
-        let usersCopy = [...users];
-        usersCopy.splice(usersCopy.indexOf(user), 1, response.data);
-        setUsers(usersCopy);
-      })
-      .catch(err => {
-        setError('Could not update user');
-        console.error(err);
-      })
-  }
-
-  useEffect(() => {
-    fetchAllUsers();
-  }, []);
-
   return (
     <div className="update-profile">
       <Card className='auth-card' style={{ maxWidth: '30rem' }}>
         <Card.Title>Update Profile</Card.Title>
-        <Card.Img src={profileImg} variant='top' alt='Profile image' />
+        <Card.Img 
+          src={profileImg}
+          variant='top'
+          alt='Profile image'
+          ref={pfp}
+          onError={handleImageError} 
+        />
         <Button className='remove-pfp' variant='link' type='button' onClick={removePfp}>Remove profile pic</Button>
         <Card.Body>
           {error && <Alert>{error}</Alert>}
