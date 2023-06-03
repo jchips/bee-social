@@ -31,12 +31,13 @@ const UpdateProfile = () => {
     updateProfile.displayName = formObj.displayName || currentUser.displayName;
     updateProfile.photoURL = profileImg;
 
-    console.log('updateProfile', updateProfile);
+    // console.log('updateProfile', updateProfile);
 
     try {
       await updateUserProfile(currentUser, updateProfile);
-      updateUserInDatabase();
-      console.log(currentUser); // delete later
+      await updateUserInDatabase();
+      let updates = await currentUser.reload()
+      console.log('current updated user', updates); // delete later
       navigate('/');
     } catch (err) {
       console.error(err)
@@ -69,7 +70,7 @@ const UpdateProfile = () => {
    */
   const checkLink = async (url) => {
     try {
-      let response = await fetch(url);
+      let response = await fetch(url, {mode: 'cors'});
       if (response.url.includes('http://localhost')) {
         return false;
       }
@@ -112,12 +113,13 @@ const UpdateProfile = () => {
    * Finds user in MongoBD database based on their uid.
    * Updates user information in MongoDB database
    */
-  const updateUserInDatabase = () => {
+  const updateUserInDatabase = async () => {
+    console.log('updateProfile', updateProfile);
     let user = users.find(user => user.uid === currentUser.uid);
     let requestURL = `${process.env.REACT_APP_SERVER}/users/${user._id}`;
     let updateUser = {
-      displayName: currentUser.displayName,
-      photoURL: currentUser.photoURL
+      displayName: updateProfile.displayName,
+      photoURL: updateProfile.photoURL
     }
     axios.patch(requestURL, updateUser)
       .then(response => {
