@@ -20,6 +20,11 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+// Enables user to use everything in context in a class component
+export function useAuthInClass() {
+  return AuthContext;
+}
+
 // Renders its children
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();

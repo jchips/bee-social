@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { Card, Form, InputGroup, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +10,7 @@ const UpdateProfile = () => {
   let [updateProfile] = useState({});
   const [profileImg, setProfileImg] = useState(currentUser.photoURL)
   const [error, setError] = useState('');
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106';
 
@@ -28,18 +30,20 @@ const UpdateProfile = () => {
 
     updateProfile.displayName = formObj.displayName || currentUser.displayName;
     updateProfile.photoURL = profileImg;
-    
+
     console.log('updateProfile', updateProfile);
 
     try {
       await updateUserProfile(currentUser, updateProfile);
+      updateUserInDatabase();
       console.log(currentUser); // delete later
+      navigate('/');
     } catch (err) {
-      console.err(err)
+      console.error(err)
       setError('Failed to update profile');
     }
 
-    navigate('/');
+    // navigate('/');
   }
 
   // Removes the profile pic (sets it back to default)
@@ -87,11 +91,56 @@ const UpdateProfile = () => {
     return profileImg || 'https://photo-url-example.jpg';
   }
 
+  /**
+   * Fetches all users from MongoDB database so that I can find the user
+   * who is updating their profile.
+   */
+  const fetchAllUsers = () => {
+    let requestURL = `${process.env.REACT_APP_SERVER}/users`;
+    axios.get(requestURL)
+      .then(response => {
+        setError('');
+        setUsers(response.data);
+      })
+      .catch(err => {
+        setError('Could not fetch users');
+        console.error(err);
+      })
+  }
+
+  /**
+   * Finds user in MongoBD database based on their uid.
+   * Updates user information in MongoDB database
+   */
+  const updateUserInDatabase = () => {
+    let user = users.find(user => user.uid === currentUser.uid);
+    let requestURL = `${process.env.REACT_APP_SERVER}/users/${user._id}`;
+    let updateUser = {
+      displayName: currentUser.displayName,
+      photoURL: currentUser.photoURL
+    }
+    axios.patch(requestURL, updateUser)
+      .then(response => {
+        setError('')
+        let usersCopy = [...users];
+        usersCopy.splice(usersCopy.indexOf(user), 1, response.data);
+        setUsers(usersCopy);
+      })
+      .catch(err => {
+        setError('Could not update user');
+        console.error(err);
+      })
+  }
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
   return (
     <div className="update-profile">
-      <Card className='auth-card' style={{maxWidth: '30rem'}}>
+      <Card className='auth-card' style={{ maxWidth: '30rem' }}>
         <Card.Title>Update Profile</Card.Title>
-        <Card.Img src={profileImg} variant='top' alt='Profile image'/>
+        <Card.Img src={profileImg} variant='top' alt='Profile image' />
         <Button className='remove-pfp' variant='link' type='button' onClick={removePfp}>Remove profile pic</Button>
         <Card.Body>
           {error && <Alert>{error}</Alert>}
@@ -103,6 +152,7 @@ const UpdateProfile = () => {
                 aria-describedby='display-name'
                 // placeholder={currentUser.displayName || 'user-' + currentUser.uid.substring(0, 10)}
                 placeholder={currentUser.displayName}
+                maxLength={20}
                 name='displayName'
               />
             </InputGroup>
@@ -117,8 +167,8 @@ const UpdateProfile = () => {
               />
             </InputGroup>
             <div className='text-center'>
-              <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>   
-            </div>  
+              <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>
+            </div>
             <Button type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
           </Form>
           <div className="text-center mt-3">

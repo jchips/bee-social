@@ -24,7 +24,7 @@ const Routing = () => {
         <Routes>
 
           <Route path='/' element={
-            <PrivateRoute>
+            <PrivateRoute style={{display: 'flex', flexDirection: 'column'}}>
               <App/>
               <Footer/>
             </PrivateRoute>

@@ -1,0 +1,54 @@
+@import '../../assets/sass/colors.scss';
+// @import 'bootstrap/scss/bootstrap'; // Import the Bootstrap SCSS files
+
+// $card-width: 18rem; // Default card width
+
+.post {
+  margin: 5px 3px;
+
+  // @media screen and (max-width: 1010px) {
+  //   margin: 5px auto;
+  // }
+
+  .card-user-info {
+    display: flex;
+    align-items: center;
+    background-color: $theme-purple;
+    color: white;
+    font-weight: 700;
+    
+    img {
+      height: 30px;
+      width: 30px;
+      border-radius: 100%;
+      margin-right: 5px;
+      border: 2.5px solid #fba512;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .trash-icon,
+  .edit-icon {
+    cursor: pointer;
+    margin: 2px;
+  }
+
+  .card-text {
+    white-space: pre-line;
+    text-align: left;
+  }
+}
+
+// // MEDIA QUERIES
+// @media screen and (max-width: 768px){
+//   $card-width: 100%;
+// }
+  
