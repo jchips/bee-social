@@ -41,8 +41,8 @@ const App = () => {
    fetchAllUsers();
   }, []);
 
-  console.log('posts:', posts); // delete later
-  console.log('users:', users); // delete later
+  // console.log('posts:', posts); // delete later
+  // console.log('users:', users); // delete later
 
   return (
     <div className='dashboard text-center row'>

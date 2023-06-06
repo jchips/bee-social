@@ -3,10 +3,12 @@ import { Card } from 'react-bootstrap';
 import { FiTrash2, FiEdit3 } from 'react-icons/fi';
 import { useAuth } from '../../contexts/AuthContext';
 import './Post.scss';
+import { Link } from 'react-router-dom';
 
 const Post = (props) => {
   const { post, user, postWidth, deletePost, setSelectedPost, setShowEditModal, postMargin } = props;
   const { currentUser } = useAuth();
+  const userProfileUrl = `/user-profile/${user._id}`;
 
   const formatDate = (date) => {
     let timeElapsed = new Date(date);
@@ -23,8 +25,11 @@ const Post = (props) => {
   return (
     <Card className='post post-card' style={{ width: postWidth, margin: postMargin }}>
       <Card.Header className='card-user-info'>
-        <img src={user.photoURL} alt='user-pfp' />
-        <p>{user.displayName}</p> {/* TODO: Turn into a Link that navigates to user's profile*/}
+        {/* <p>{user.displayName}</p> */}
+        <Link to={userProfileUrl}>
+          <img src={user.photoURL} alt='user-pfp' />
+          {user.displayName}
+        </Link>
       </Card.Header>
       <Card.Body>
         <div className='card-head'>
