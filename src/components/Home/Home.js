@@ -89,8 +89,8 @@ const Home = (props) => {
    * @returns {Object} - The user that the post belongs to.
    */
   const getUserOfPost = (postUid) => {
-    let user = users.find(user => user.uid === postUid);
-    return user;
+    let userOfPost = users.find(user => user.uid === postUid);
+    return userOfPost;
   }
 
   // Sets the page view so that the posts are displayed in stacks
