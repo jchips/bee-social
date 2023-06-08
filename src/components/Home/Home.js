@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import axios from 'axios';
-// import Post from '../Post/Post';
+import Post from '../Post/Post';
 import Header from '../Header/Header';
 import EditPostModal from './PostModals/EditPostModal';
 import './Feed.scss'; // Home.scss
 import AddPostModal from './PostModals/AddPostModal';
-import PostsContainer from '../PostsContainer';
+// import PostsContainer from '../PostsContainer';
 
 const Home = (props) => {
-  const { posts, setPosts, users } = props;
+  const { posts, setPosts, users, user } = props;
   const [error, setError] = useState('');
   // const [view, setView] = useState('grid');
   const [postWidth, setPostWidth] = useState('17rem');
@@ -109,20 +109,22 @@ const Home = (props) => {
 
   return (
     <div className='feed col-lg-10 col-sm-12'>
-      <Header setGridView={setGridView} setStackedView={setStackedView} />
+      <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
+      {users && (
         <div className='add-post text-center'>
           <Button variant='dark' onClick={() => setShowAddModal(true)} className='mt-2 button' style={{ backgroundColor: '#212529' }}>Add post</Button>
         </div>
-      {/* <div className="posts-container">
+      )}
+      <div className="posts-container">
         <Row lg={rowConfig} sm={1} className='posts-display justify-content-center'>
           {error && <Alert variant='danger'>{error}</Alert>}
 
-          
-          {(posts.length > 0 && users.length > 0) && (posts.map(post =>
+
+          {(posts.length > 0) && (posts.map(post =>
             <Col lg md sm className='post-column' key={post._id}>
               <Post
                 post={post}
-                user={getUserOfPost(post.uid)}
+                user={users ? getUserOfPost(post.uid) : user}
                 postWidth={postWidth}
                 postMargin={postMargin}
                 deletePost={deletePost}
@@ -133,8 +135,8 @@ const Home = (props) => {
           ))}
         </Row>
 
-      </div> */}
-      <PostsContainer
+      </div>
+      {/* <PostsContainer
         posts={posts}
         users={users}
         rowConfig={rowConfig}
@@ -145,7 +147,7 @@ const Home = (props) => {
         deletePost={deletePost}
         setSelectedPost={setSelectedPost}
         setShowEditModal={setShowEditModal}
-      />
+      /> */}
       <AddPostModal
         addPost={addPost}
         showAddModal={showAddModal}
