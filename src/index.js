@@ -14,6 +14,7 @@ import ForgotPassword from './components/ForgotPassword';
 import UpdateLogin from './components/UpdateLogin';
 import Footer from './components/Footer/Footer';
 import UpdateProfile from './components/UpdateProfile/UpdateProfile';
+import UserProfile from './components/UserProfile/UserProfile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -24,7 +25,7 @@ const Routing = () => {
         <Routes>
 
           <Route path='/' element={
-            <PrivateRoute>
+            <PrivateRoute style={{display: 'flex', flexDirection: 'column'}}>
               <App/>
               <Footer/>
             </PrivateRoute>
@@ -43,6 +44,13 @@ const Routing = () => {
               <Footer/>
             </PrivateRoute>
           } />
+
+          <Route path='/user-profile/:userId' element={
+            <PrivateRoute>
+              <UserProfile/>
+              <Footer/>
+            </PrivateRoute>
+          }/>
 
           <Route path='/signup' element={<Signup/>} />
           <Route path='/verify-email' element={<VerifyEmail/>} />

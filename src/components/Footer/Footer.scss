@@ -1,8 +1,18 @@
 .footer {
-  position: absolute;
-  bottom: 0;
+  // position: absolute;
+  // position: fixed;
+  // bottom: 0;
+  position: fixed;
+    bottom: 0;
   padding: 30px;
   background-color: #192733;
   width: 100%;
   text-align: center;
 }
+
+// @media screen and (min-width: 1083px) {
+//   .footer {
+//     position: fixed;
+//     bottom: 0;
+//   }
+// }

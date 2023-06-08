@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Card, Form, InputGroup, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import './UpdateProfile.scss';
 
 const UpdateProfile = () => {
   const { currentUser, updateUserProfile } = useAuth();
+  const pfp = useRef(null);
   let [updateProfile] = useState({});
   const [profileImg, setProfileImg] = useState(currentUser.photoURL)
   const [error, setError] = useState('');
@@ -26,20 +27,18 @@ const UpdateProfile = () => {
     const formData = new FormData(form);
     const formObj = Object.fromEntries(formData.entries());
 
+    // Either sets the display name and pfp to the newly submitted profile information
+    // or keeps it as whatever it was before.
     updateProfile.displayName = formObj.displayName || currentUser.displayName;
     updateProfile.photoURL = profileImg;
-    
-    console.log('updateProfile', updateProfile);
 
     try {
       await updateUserProfile(currentUser, updateProfile);
-      console.log(currentUser); // delete later
+      navigate('/');
     } catch (err) {
-      console.err(err)
+      console.error(err)
       setError('Failed to update profile');
     }
-
-    navigate('/');
   }
 
   // Removes the profile pic (sets it back to default)
@@ -48,31 +47,21 @@ const UpdateProfile = () => {
   }
 
   /**
-   * Checks if photo URL is an active link, and if it is, updates the pfp to display the image
+   * Sets the profile pic (pfp) to the whatever the user inputs for their photo URL.
    * @param {Event} e - onChange event
    */
   const changePfp = (e) => {
-    checkLink(e.target.value)
-      .then(link => setProfileImg(link ? e.target.value : defaultImage))
-      .catch(err => console.error(err));
+    setProfileImg(e.target.value);
   }
 
-  /**
-   * Checks to make sure link is active
-   * Idea from: https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript
-   * @param {String} url - the photo url it checks
-   * @returns {Boolean} - Whether the link is active or not
+  /** 
+   * Runs if the photo URL doesn't lead to an image or is broken.
+   * Sets the profile pic (pfp) to the default image.
    */
-  const checkLink = async (url) => {
-    try {
-      let response = await fetch(url);
-      if (response.url.includes('http://localhost')) {
-        return false;
-      }
-      return response.ok;
-    } catch (err) {
-      console.error(err);
-      return false;
+  const handleImageError = () => {
+    if (pfp.current) {
+      pfp.current.src = defaultImage;
+      setProfileImg(defaultImage);
     }
   }
 
@@ -89,9 +78,15 @@ const UpdateProfile = () => {
 
   return (
     <div className="update-profile">
-      <Card className='auth-card' style={{maxWidth: '30rem'}}>
+      <Card className='auth-card' style={{ maxWidth: '30rem' }}>
         <Card.Title>Update Profile</Card.Title>
-        <Card.Img src={profileImg} variant='top' alt='Profile image'/>
+        <Card.Img 
+          src={profileImg}
+          variant='top'
+          alt='Profile image'
+          ref={pfp}
+          onError={handleImageError} 
+        />
         <Button className='remove-pfp' variant='link' type='button' onClick={removePfp}>Remove profile pic</Button>
         <Card.Body>
           {error && <Alert>{error}</Alert>}
@@ -103,6 +98,7 @@ const UpdateProfile = () => {
                 aria-describedby='display-name'
                 // placeholder={currentUser.displayName || 'user-' + currentUser.uid.substring(0, 10)}
                 placeholder={currentUser.displayName}
+                maxLength={20}
                 name='displayName'
               />
             </InputGroup>
@@ -117,8 +113,8 @@ const UpdateProfile = () => {
               />
             </InputGroup>
             <div className='text-center'>
-              <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>   
-            </div>  
+              <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>
+            </div>
             <Button type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
           </Form>
           <div className="text-center mt-3">

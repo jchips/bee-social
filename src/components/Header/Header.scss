@@ -1,0 +1,41 @@
+@import '../../assets/sass/colors';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: $theme-yellow;
+  // color: $theme-purple;
+  padding: 10px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom: 2px solid $theme-purple;
+  align-items: center;
+
+  .back-btn {
+    cursor: pointer;
+    // padding: 5px;
+    margin: 0 5px;
+  }
+
+  img {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  .options {
+    text-align: right;
+    
+    & > * {
+      margin: 0 3px;
+      height: 30px;
+    }
+  }
+}
