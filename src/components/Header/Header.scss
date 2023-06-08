@@ -11,6 +11,12 @@
   border-bottom: 2px solid $theme-purple;
   align-items: center;
 
+  .back-btn {
+    cursor: pointer;
+    // padding: 5px;
+    margin: 0 5px;
+  }
+
   img {
     height: 50px;
     width: 50px;

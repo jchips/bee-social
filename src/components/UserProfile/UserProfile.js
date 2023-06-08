@@ -11,13 +11,14 @@ const UserProfile = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
 
+  // Fetches all the posts of whomever's profile was clicked on
   const getPosts = useCallback(() => {
     if(user.uid) {
       let requestURL = `${process.env.REACT_APP_SERVER}/posts?uid=${user.uid}`;
       axios.get(requestURL)
         .then(response => {
           setError('');
-          setPosts(response.data);
+          setPosts(response.data.reverse());
         })
         .catch(err => {
           console.error(err);
@@ -26,8 +27,8 @@ const UserProfile = () => {
     }
   }, [user.uid]);
   
-
   useEffect(() => {
+    // Fetches the user of whoever's profile was clicked on
     const findUserById = () => {
       let requestURL = `${process.env.REACT_APP_SERVER}/users/${userId}`;
       axios.get(requestURL)

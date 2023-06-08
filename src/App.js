@@ -48,7 +48,9 @@ const App = () => {
     <div className='dashboard text-center row'>
       {error && <Alert>{error}</Alert>}
       <Sidebar />
-      {users.length > 0 && <Home posts={posts} users={users} setPosts={setPosts}/>}
+      {users.length > 0 && 
+        <Home posts={posts} users={users} setPosts={setPosts} />
+      }
     </div>
   )
 }

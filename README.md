@@ -9,7 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Author: Jelani R
 
-## Version: 1.0.0
+## Version: 1.1.0
 
 ## Architecture
 
@@ -17,6 +17,7 @@ This web app is built in React with JavaScript, JSX, and Sass, and uses: Firebas
 
 ## Changelog
 
+- 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
 - 06-02-2023 6:50pm - (1.0.0) Users can perform CRUD operations on posts and update their profile.
 - 06-01-2023 3:00pm - (0.1.0) Initial commit with Firebase auth set up.
 
@@ -24,7 +25,7 @@ This web app is built in React with JavaScript, JSX, and Sass, and uses: Firebas
 
 - [React Icons](https://react-icons.github.io/react-icons/)
 - [React Authentication Crash Course With Firebase And Routing by WebDevSimplied](https://youtu.be/PKwu15ldZ7k)
-- [Checking if a URL is active](https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript)
+<!-- - [Checking if a URL is active](https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript) -->
 
 ## Project setup and Available Scripts
 

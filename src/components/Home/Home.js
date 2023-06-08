@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 import Post from '../Post/Post';
 import Header from '../Header/Header';
 import EditPostModal from './PostModals/EditPostModal';
@@ -18,6 +19,7 @@ const Home = (props) => {
   const [selectedPost, setSelectedPost] = useState({});
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const { currentUser } = useAuth();
 
   /**
    * Adds a new post to the front of database and then re-renders the page so that the new
@@ -110,7 +112,7 @@ const Home = (props) => {
   return (
     <div className='feed col-lg-10 col-sm-12'>
       <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
-      {users && (
+      {(users || currentUser.uid === user.uid) && (
         <div className='add-post text-center'>
           <Button variant='dark' onClick={() => setShowAddModal(true)} className='mt-2 button' style={{ backgroundColor: '#212529' }}>Add post</Button>
         </div>
@@ -118,7 +120,6 @@ const Home = (props) => {
       <div className="posts-container">
         <Row lg={rowConfig} sm={1} className='posts-display justify-content-center'>
           {error && <Alert variant='danger'>{error}</Alert>}
-
 
           {(posts.length > 0) && (posts.map(post =>
             <Col lg md sm className='post-column' key={post._id}>
