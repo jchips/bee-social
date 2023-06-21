@@ -3,7 +3,7 @@ import axios from 'axios';
 // import { useAuth } from './contexts/AuthContext';
 import Sidebar from './components/Sidebar/Sidebar';
 import Home from './components/Home/Home';
-import { Alert } from 'bootstrap';
+import { Alert } from 'react-bootstrap';
 
 const App = () => {
   const [posts, setPosts] = useState([]);

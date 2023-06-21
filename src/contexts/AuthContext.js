@@ -91,8 +91,7 @@ export function AuthProvider({ children }) {
    * Finds user in MongoBD database based on their uid.
    * Updates user information in MongoDB database
    */
-  const updateUserInDatabase = async (updatedUser) => {
-    console.log('updateProfile', updateProfile);
+  const updateUserInDatabase = (updatedUser) => {
     let mongoUser = users.find(user => user.uid === updatedUser.uid);
     console.log('mongoUser', mongoUser);
     let requestURL = `${process.env.REACT_APP_SERVER}/users/${mongoUser._id}`;
