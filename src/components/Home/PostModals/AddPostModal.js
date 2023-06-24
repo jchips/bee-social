@@ -13,7 +13,6 @@ class AddPostModal extends Component {
   handleSubmit = (e) => {
     e.preventDefault(); // prevents instant refresh
     const { currentUser } = this.context;
-    console.log('currentUser', currentUser);
     let newPost = {
       title: e.target.title.value,
       text: e.target.text.value,

@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 const Login = () => {
   const [loading, isLoading] = useState(false);
   const [error, setError] = useState('');
-  const { login, logout, currentUser } = useAuth();
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,7 +19,6 @@ const Login = () => {
       isLoading(true);
       let userCredential = await login(email, password);
       console.log(userCredential); // delete later
-      console.log(currentUser); // delete later
       if (userCredential.user.emailVerified) {
         navigate('/');
       } else {

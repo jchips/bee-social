@@ -9,7 +9,6 @@ const Header = (props) => {
   const { setGridView, setStackedView, user } = props;
   const navigate = useNavigate();
 
-  console.log('user(s): ', user); // delete later
   return (
     <div className='header'>
       {user && <div>
