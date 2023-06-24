@@ -32,7 +32,6 @@ const Signup = () => {
         photoURL: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106'
       });
 
-      console.log(userCredential.user); // delete later
       addUserToDatabase(userCredential.user); // add user to MongoDB database
       logoutUser();
       navigate('/verify-email');

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { useAuth } from './contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 import Sidebar from './components/Sidebar/Sidebar';
 import Home from './components/Home/Home';
 import { Alert } from 'react-bootstrap';
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
+  const { users } = useAuth();
 
   const fetchAllPosts = () => {  
     let requestURL = `${process.env.REACT_APP_SERVER}/posts`;
@@ -23,22 +24,22 @@ const App = () => {
       });
   }
 
-  const fetchAllUsers = () => {
-    let requestURL = `${process.env.REACT_APP_SERVER}/users`;
-    axios.get(requestURL)
-      .then(response => {
-        setError('');
-        setUsers(response.data);
-      })
-      .catch(err => {
-        setError('Could not fetch users');
-        console.error(err);
-      })
-  }
+  // const fetchAllUsers = () => {
+  //   let requestURL = `${process.env.REACT_APP_SERVER}/users`;
+  //   axios.get(requestURL)
+  //     .then(response => {
+  //       setError('');
+  //       setUsers(response.data);
+  //     })
+  //     .catch(err => {
+  //       setError('Could not fetch users');
+  //       console.error(err);
+  //     })
+  // }
 
   useEffect(() => {
    fetchAllPosts();
-   fetchAllUsers();
+  //  fetchAllUsers();
   }, []);
 
   // console.log('posts:', posts); // delete later

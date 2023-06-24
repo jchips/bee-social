@@ -9,6 +9,7 @@ const Post = (props) => {
   const { post, user, postWidth, deletePost, setSelectedPost, setShowEditModal, postMargin } = props;
   const { currentUser } = useAuth();
   const userProfileUrl = `/user-profile/${user._id}`;
+  // console.log('user in post', user);
 
   const formatDate = (date) => {
     let timeElapsed = new Date(date);

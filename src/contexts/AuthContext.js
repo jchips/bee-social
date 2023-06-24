@@ -78,7 +78,6 @@ export function AuthProvider({ children }) {
     let requestURL = `${process.env.REACT_APP_SERVER}/users`;
     axios.get(requestURL)
       .then(response => {
-        // setError('');
         setUsers(response.data);
       })
       .catch(err => {
@@ -92,6 +91,7 @@ export function AuthProvider({ children }) {
    * Updates user information in MongoDB database
    */
   const updateUserInDatabase = (updatedUser) => {
+    fetchAllUsers();
     let mongoUser = users.find(user => user.uid === updatedUser.uid);
     console.log('mongoUser', mongoUser);
     let requestURL = `${process.env.REACT_APP_SERVER}/users/${mongoUser._id}`;
@@ -117,8 +117,8 @@ export function AuthProvider({ children }) {
   // componentDidMount -> things only happen once when the component is mounted
   // Whenever we unmount the component it will unsubscribe because onAuthStateChanged() returns a method
   useEffect(() => {
-    fetchAllUsers();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      fetchAllUsers();
       setCurrentUser(user);
       setLoading(false); // lets Firebase verify if there is a currentUser first
     })
@@ -128,6 +128,7 @@ export function AuthProvider({ children }) {
   
   // Everything in this value obj can be used in other components
   const value = {
+    users,
     currentUser,
     signup,
     emailVerification,
