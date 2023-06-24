@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import axios from 'axios';
 import Sidebar from '../Sidebar/Sidebar';
-import Home from '../Home/Home';
+import DisplayPosts from '../DisplayPosts/DisplayPosts';
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -49,7 +49,7 @@ const UserProfile = () => {
     <div className='user-profile dashboard text-center row'>
       {error && <Alert>{error}</Alert>}
       <Sidebar />
-      {(posts.length > 0 && user.uid) && <Home posts={posts} user={user} setPosts={setPosts}/>}
+      {(posts.length > 0 && user.uid) && <DisplayPosts posts={posts} user={user} setPosts={setPosts}/>}
     </div>
   );
 }

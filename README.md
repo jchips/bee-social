@@ -1,22 +1,25 @@
 # Social Posts App
 
-Front-end to MERN full-stack app with CRUD operation that displays posts from multiple users and uses MongoDB to enable users
+Front-end to MERN full-stack app with CRUD operations that displays posts from multiple users and uses MongoDB to enable users
 to create, update and delete their posts.
 
 This is a web app for users who want to share posts with their friends and colleagues. Made to practice my auth skills.
+
+Live site: <https://social-posts-app.netlify.app/>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Author: Jelani R
 
-## Version: 1.1.0
+## Version: 1.1.1
 
 ## Architecture
 
-This web app is built in React with JavaScript, JSX, and Sass, and uses: Firebase (auth), Bootstrap/React Bootstrap, React Router, MongoDB (backend), and Axios.
+This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Firebase (auth), Bootstrap/React Bootstrap, React Router, MongoDB (backend), and Axios.
 
 ## Changelog
 
+- 06-23-2023 6:55pm - (1.1.1) Fixed bug where profile wasn't updating for new users.
 - 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
 - 06-02-2023 6:50pm - (1.0.0) Users can perform CRUD operations on posts and update their profile.
 - 06-01-2023 3:00pm - (0.1.0) Initial commit with Firebase auth set up.

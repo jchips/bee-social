@@ -5,14 +5,12 @@ import { useAuth } from '../../contexts/AuthContext';
 import Post from '../Post/Post';
 import Header from '../Header/Header';
 import EditPostModal from './PostModals/EditPostModal';
-import './Feed.scss'; // Home.scss
+import './DisplayPosts.scss';
 import AddPostModal from './PostModals/AddPostModal';
-// import PostsContainer from '../PostsContainer';
 
 const Home = (props) => {
   const { posts, setPosts, users, user } = props;
   const [error, setError] = useState('');
-  // const [view, setView] = useState('grid');
   const [postWidth, setPostWidth] = useState('17rem');
   const [postMargin, setPostMargin] = useState('5px 3px');
   const [rowConfig, setRowConfig] = useState('auto');
@@ -89,16 +87,12 @@ const Home = (props) => {
    * @returns {Object} - The user that the post belongs to.
    */
   const getUserOfPost = (postUid) => {
-    let userOfPost = users.find(user => {
-      console.log('user uid', user);
-      return user.uid === postUid;
-    })
+    let userOfPost = users.find(user => user.uid === postUid);
     return userOfPost || currentUser;
   }
 
   // Sets the page view so that the posts are displayed in stacks
   const setStackedView = () => {
-    // setView('stack');
     setPostWidth('30rem');
     setRowConfig(1);
     setPostMargin('5px auto');
@@ -106,7 +100,6 @@ const Home = (props) => {
 
   // Sets the page view so that posts are displayed in a grid
   const setGridView = () => {
-    // setView('grid');
     setPostWidth('17rem');
     setRowConfig('auto');
     setPostMargin('5px 3px');
@@ -140,18 +133,6 @@ const Home = (props) => {
         </Row>
 
       </div>
-      {/* <PostsContainer
-        posts={posts}
-        users={users}
-        rowConfig={rowConfig}
-        error={error}
-        getUserOfPost={getUserOfPost}
-        postWidth={postWidth}
-        postMargin={postMargin}
-        deletePost={deletePost}
-        setSelectedPost={setSelectedPost}
-        setShowEditModal={setShowEditModal}
-      /> */}
       <AddPostModal
         addPost={addPost}
         showAddModal={showAddModal}
