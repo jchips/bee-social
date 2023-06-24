@@ -96,7 +96,6 @@ const UpdateProfile = () => {
               <Form.Control
                 aria-label='Enter name'
                 aria-describedby='display-name'
-                // placeholder={currentUser.displayName || 'user-' + currentUser.uid.substring(0, 10)}
                 placeholder={currentUser.displayName}
                 maxLength={20}
                 name='displayName'

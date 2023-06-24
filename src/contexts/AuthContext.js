@@ -62,11 +62,10 @@ export function AuthProvider({ children }) {
   }
 
   function updateUserProfile(user, newProfile) {
-    console.log('currentUser in AuthContext', user);
     return updateProfile(user, newProfile)
       .then(() => updateUserInDatabase(user))
-      .then(response => console.log('testing', response.data))
-      .then(() => console.log('profile updated'))
+      // .then(response => console.log('testing', response.data))
+      // .then(() => console.log('profile updated'))
       .catch(error => console.error(error));
   }
 
@@ -81,7 +80,6 @@ export function AuthProvider({ children }) {
         setUsers(response.data);
       })
       .catch(err => {
-        // setError('Could not fetch users');
         console.error(err);
       })
   }
@@ -101,14 +99,12 @@ export function AuthProvider({ children }) {
     }
     return axios.patch(requestURL, updateUser)
       .then(response => {
-        // setError('')
         let usersCopy = [...users];
         usersCopy.splice(usersCopy.indexOf(mongoUser), 1, response.data);
         setUsers(usersCopy);
         return response;
       })
       .catch(err => {
-        // setError('Could not update user');
         console.error(err);
         return err;
       })
