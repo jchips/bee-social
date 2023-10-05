@@ -61,11 +61,11 @@ const UpdateLogin = () => {
             </Form.Group>
             <Form.Group controlId='password' className='mb-3'>
               <Form.Label>Enter Password</Form.Label>
-              <Form.Control type='password' placeholder='Leave blank to keep the same' required />
+              <Form.Control type='password' placeholder='Leave blank to keep the same' />
             </Form.Group>
             <Form.Group controlId='confirmPassword' className='mb-3'>
               <Form.Label>Confirm Password</Form.Label>
-              <Form.Control type='password' placeholder='Leave blank to keep the same' required />
+              <Form.Control type='password' placeholder='Leave blank to keep the same' />
             </Form.Group>
             <Button variant='primary' type='submit' className='w-100 mt-2' disabled={loading}>Update</Button>
           </Form>

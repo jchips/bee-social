@@ -6,9 +6,14 @@ import { useAuth } from '../contexts/AuthContext';
 const Login = () => {
   const [loading, isLoading] = useState(false);
   const [error, setError] = useState('');
-  const { login, logout } = useAuth();
+  const { login, logout, emailVerification } = useAuth();
   const navigate = useNavigate();
 
+  /**
+   * Logs in user if they have an account.
+   * Logs user out (if their email is not verified).
+   * @param {Event} e - THe submit event when a user presses 'log in'
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     let email = e.target.email.value;
@@ -18,11 +23,13 @@ const Login = () => {
       setError('');
       isLoading(true);
       let userCredential = await login(email, password);
-      console.log(userCredential); // delete later
+
+      // If email is not verified, send them a email verification link.
       if (userCredential.user.emailVerified) {
         navigate('/');
       } else {
-        setError('Email not verified');
+        setError('Email not verified. Check your email inbox to verify email.');
+        verifyEmail(userCredential.user);
         logoutUser();
       }
     } catch (err) {
@@ -33,6 +40,19 @@ const Login = () => {
     isLoading(false);
   }
 
+  /**
+   * Sends the recently signed up user a verification email
+   * @param {Object} user - The info of the user who signed up
+   */
+  const verifyEmail = async (user) => {
+    try {
+      await emailVerification(user);
+    } catch (err) {
+      setError('Could not verify email');
+    }
+  }
+
+  // Logs user out
   const logoutUser = async () => {
     try {
       await logout();
