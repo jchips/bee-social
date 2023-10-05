@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
   }
 
   function updateEmail(email) {
-    return updateEmailFirebase(auth, currentUser, email);
+    return updateEmailFirebase(currentUser, email);
   }
 
   function updatePassword(newPassword) {

@@ -1,9 +1,8 @@
-# Social Posts App
+# Bee Social (Social Posts App)
 
-Front-end to MERN full-stack app with CRUD operations that displays posts from multiple users and uses MongoDB to enable users
-to create, update and delete their posts.
+Front-end to MERN full-stack app with CRUD operations that displays posts from multiple users and uses MongoDB to enable users to create, update and delete their posts.
 
-This is a web app for users who want to share posts with their friends and colleagues. Made to practice my auth skills.
+This is a web app for users who want to share posts with their friends and colleagues. Made to practice my auth skills and MERN stack development.
 
 Live site: <https://social-posts-app.netlify.app/>
 
@@ -11,7 +10,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Author: Jelani R
 
-## Version: 1.1.1
+## Version: 1.1.2
+
+## Project Images
+
+![Picture 1](src/assets/imgs/social-posts2.png)
+![Picture 2](src/assets/imgs/social-posts3.png)
+![Picture 3](src/assets/imgs/social-posts4.png)
+![Picture 4](src/assets/imgs/social-posts5.png)
 
 ## Architecture
 
@@ -19,6 +25,7 @@ This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Fi
 
 ## Changelog
 
+- 10-04-2023 10:22pm - (1.1.2) Sends user a email verification link if their email is not verified when they try to log in after changing their email. Added images to README.
 - 06-23-2023 6:55pm - (1.1.1) Fixed bug where profile wasn't updating for new users.
 - 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
 - 06-02-2023 6:50pm - (1.0.0) Users can perform CRUD operations on posts and update their profile.
@@ -26,11 +33,33 @@ This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Fi
 
 ## My Resources
 
+- [Firebase](https://firebase.google.com/)
 - [React Icons](https://react-icons.github.io/react-icons/)
 - [React Authentication Crash Course With Firebase And Routing by WebDevSimplied](https://youtu.be/PKwu15ldZ7k)
 <!-- - [Checking if a URL is active](https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript) -->
 
-## Project setup and Available Scripts
+## Project setup
+
+### Back-end setup
+
+- Needs server. Can clone [backend here](https://github.com/Jchips/social-posts-backend).
+- Needs MongoDB database to be created. Create .env file in backend code and copy the database link into the .env file.
+- Check [.env.sample](https://github.com/Jchips/social-posts-backend/blob/main/.env.sample) in backend code for any other needed environment variables.
+- Run `npm install` in terminal to install dependencies.
+- Run the backend code using `nodemon` in terminal or `npm start` if you don't have nodemon installed.
+
+### Front-end setup
+
+- Create .env file.
+- Copy the link to your server into the .env file.
+- Create a Firebase web app project and register app. [Click here for help on how to do that](https://firebase.google.com/docs/web/setup).
+- Initialize Firebase project by copying your Firebase project configuration into your .env file. Can look at [.env.sample](.env.sample) for reference. If your project configuration doesn't show, you can find it in your Firebase project by going to Project Overview > Project Settings.
+- Set up email/password login in Authentication in Firebase project.
+- Run `npm install` in terminal to install dependencies.
+- Run the project using `npm start` in terminal.
+- You will have to use a real email address to sign up for the Bee Social app (one that you can access). If you don't want to use a personal one, you can use a temporary one by Googling 'Temp mail' and finding a site you like to give you a temporary email address.
+
+## Available Scripts
 
 In the project directory, you can run:
 
