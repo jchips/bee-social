@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import Post from '../Post/Post';
+import Post from '../DisplayPosts/Post/Post';
 import Header from '../Header/Header';
 import EditPostModal from './PostModals/EditPostModal';
 import './DisplayPosts.scss';
@@ -42,7 +42,7 @@ const Home = (props) => {
   /**
    * Updates the post in the database to reflect the new changes the user made.
    * Then re-renders the page so that the edits shows up on the page right away.
-   * TODO: try putting editPost() in a function component and using using the 
+   * TODO: try putting editPost() in a function component and using using the
    * function in multiple components.
    * @param {Object} newPost - Post to be updated (with it's updated contents).
    */

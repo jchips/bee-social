@@ -1,41 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAuth } from './contexts/AuthContext';
-import Sidebar from './components/Sidebar/Sidebar';
-import DisplayPosts from './components/DisplayPosts/DisplayPosts';
-import { Alert } from 'react-bootstrap';
+import React from 'react';
+import './index.css';
+import Dashboard from './pages/Dashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/sass/App.scss';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import PrivateRoute from './components/PrivateRoute';
+import VerifyEmail from './pages/VerifyEmail';
+import ForgotPassword from './pages/ForgotPassword';
+import UpdateLogin from './pages/UpdateLogin';
+import Footer from './components/Footer/Footer';
+import UpdateProfile from './pages/UpdateProfile/UpdateProfile';
+import UserProfile from './pages/UserProfile/UserProfile';
 
 const App = () => {
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState('');
-  const { users } = useAuth();
-
-  const fetchAllPosts = () => {  
-    let requestURL = `${process.env.REACT_APP_SERVER}/posts`;
-    axios.get(requestURL)
-      .then(response => {
-        setError('');
-        setPosts(response.data.reverse());
-      })
-      .catch(err => {
-        setError('Could not load posts');
-        console.error(err);
-      });
-  }
-
-  useEffect(() => {
-   fetchAllPosts();
-  }, []);
-
   return (
-    <div className='dashboard text-center row'>
-      {error && <Alert>{error}</Alert>}
-      <Sidebar />
-      {users.length > 0 && 
-        <DisplayPosts posts={posts} users={users} setPosts={setPosts} />
-      }
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+
+          <Route path='/' element={
+            <PrivateRoute style={{ display: 'flex', flexDirection: 'column' }}>
+              <Dashboard />
+              <Footer />
+            </PrivateRoute>
+          } />
+
+          <Route path='/update-login' element={
+            <PrivateRoute>
+              <UpdateLogin />
+              <Footer />
+            </PrivateRoute>
+          } />
+
+          <Route path='/update-profile' element={
+            <PrivateRoute>
+              <UpdateProfile />
+              <Footer />
+            </PrivateRoute>
+          } />
+
+          <Route path='/user-profile/:userId' element={
+            <PrivateRoute>
+              <UserProfile />
+              <Footer />
+            </PrivateRoute>
+          } />
+
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/verify-email' element={<VerifyEmail />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
-
 export default App;
