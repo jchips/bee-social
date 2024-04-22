@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import axios from 'axios';
-import Sidebar from '../Sidebar/Sidebar';
-import DisplayPosts from '../DisplayPosts/DisplayPosts';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import DisplayPosts from '../../components/DisplayPosts/DisplayPosts';
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -13,7 +13,7 @@ const UserProfile = () => {
 
   // Fetches all the posts of whomever's profile was clicked on
   const getPosts = useCallback(() => {
-    if(user.uid) {
+    if (user.uid) {
       let requestURL = `${process.env.REACT_APP_SERVER}/posts?uid=${user.uid}`;
       axios.get(requestURL)
         .then(response => {
@@ -26,7 +26,7 @@ const UserProfile = () => {
         });
     }
   }, [user.uid]);
-  
+
   useEffect(() => {
     // Fetches the user of whoever's profile was clicked on
     const findUserById = () => {
@@ -49,7 +49,7 @@ const UserProfile = () => {
     <div className='user-profile dashboard text-center row'>
       {error && <Alert>{error}</Alert>}
       <Sidebar />
-      {(posts.length > 0 && user.uid) && <DisplayPosts posts={posts} user={user} setPosts={setPosts}/>}
+      {(posts.length > 0 && user.uid) && <DisplayPosts posts={posts} user={user} setPosts={setPosts} />}
     </div>
   );
 }

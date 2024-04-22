@@ -14,10 +14,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Project Images
 
-![Picture 1](src/assets/imgs/social-posts2.png)
-![Picture 2](src/assets/imgs/social-posts3.png)
-![Picture 3](src/assets/imgs/social-posts4.png)
-![Picture 4](src/assets/imgs/social-posts5.png)
+![Picture 1](src/assets/imgs/bee-social1.png)
+![Picture 2](src/assets/imgs/bee-social2.png)
+![Picture 3](src/assets/imgs/bee-social3.png)
+![Picture 4](src/assets/imgs/bee-social4.png)
 
 ## Architecture
 
