@@ -46,6 +46,7 @@
   overflow: hidden;
   z-index: 1;
   text-decoration: none;
+
   &:after {
     content: '';
     position: absolute;
@@ -53,10 +54,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: $theme-purple;
+    background-color: $theme-black;
     border-radius: 10rem;
     z-index: -2;
   }
+
   &:before {
     content: '';
     position: absolute;
@@ -64,15 +66,22 @@
     left: 0;
     width: 0%;
     height: 100%;
-    background-color: darken($theme-purple, 15%);
+    background-color: darken($theme-black, 15%);
     transition: all .3s;
     border-radius: 10rem;
     z-index: -1;
   }
+
   &:hover {
     color: #fff;
+
     &:before {
       width: 100%;
     }
   }
+}
+
+// honestly can't remember why I even have a button background color...
+.button-background {
+  background-color: #1e2a35;
 }

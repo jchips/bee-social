@@ -22,7 +22,7 @@ class AddPostModal extends Component {
 
     this.props.addPost(newPost);
 
-     this.handleClose();
+    this.handleClose();
   }
   render() {
     const { showAddModal } = this.props;

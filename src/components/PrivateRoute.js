@@ -9,10 +9,9 @@ import { Navigate } from 'react-router-dom';
  * @param {Object} {children} - (Prop) all the children components.
  * @returns - Either a component or navigation to a component.
  */
-const PrivateRoute = ({children}) => {
+const PrivateRoute = ({ children }) => {
   const { currentUser } = useAuth();
-  console.log('currentUser:', currentUser); // delete later
-  return currentUser ? children : <Navigate to='/login'/>;
+  return currentUser ? children : <Navigate to='/login' />;
 }
 
 export default PrivateRoute;

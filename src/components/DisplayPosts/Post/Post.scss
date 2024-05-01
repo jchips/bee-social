@@ -1,19 +1,12 @@
 @import '../../../assets/sass/colors.scss';
-// @import 'bootstrap/scss/bootstrap'; // Import the Bootstrap SCSS files
-
-// $card-width: 18rem; // Default card width
 
 .post {
   margin: 5px 3px;
 
-  // @media screen and (max-width: 1010px) {
-  //   margin: 5px auto;
-  // }
-
   .card-user-info {
     display: flex;
     align-items: center;
-    background-color: $theme-purple;
+    background-color: $theme-black;
     color: white;
     font-weight: 700;
 
@@ -48,9 +41,14 @@
     white-space: pre-line;
     text-align: left;
   }
-}
 
-// // MEDIA QUERIES
-// @media screen and (max-width: 768px){
-//   $card-width: 100%;
-// }
+  .img-container {
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      max-height: 250px;
+      object-fit: contain;
+      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+    }
+  }
+}

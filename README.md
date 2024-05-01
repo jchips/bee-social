@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Author: Jelani R
 
-## Version: 1.1.2
+## Version: 2.0.0
 
 ## Project Images
 
@@ -25,6 +25,8 @@ This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Fi
 
 ## Changelog
 
+- 05-01-2024 3:38pm - (2.0.0) - Added the ability to upload images.
+- 04-22-2024 7:00am - (1.1.3) Refactored code because it was messy.
 - 10-04-2023 10:22pm - (1.1.2) Sends user a email verification link if their email is not verified when they try to log in after changing their email. Added images to README.
 - 06-23-2023 6:55pm - (1.1.1) Fixed bug where profile wasn't updating for new users.
 - 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
@@ -35,7 +37,9 @@ This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Fi
 
 - [Firebase](https://firebase.google.com/)
 - [React Icons](https://react-icons.github.io/react-icons/)
-- [React Authentication Crash Course With Firebase And Routing by WebDevSimplied](https://youtu.be/PKwu15ldZ7k)
+- [uuid package](https://github.com/uuidjs/uuid#readme)
+- [React Authentication Crash Course With Firebase And Routing by Web Dev Simplified](https://youtu.be/PKwu15ldZ7k)
+- [How To Build A Google Drive Clone With Firebase by Web Dev Simplified](https://youtu.be/6XTRElVAZ9Y)
 <!-- - [Checking if a URL is active](https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript) -->
 
 ## Project setup

@@ -6,7 +6,7 @@ import './Post.scss';
 import { Link } from 'react-router-dom';
 
 const Post = (props) => {
-  const { post, user, postWidth, deletePost, setSelectedPost, setShowEditModal, postMargin } = props;
+  const { post, user, postWidth, deletePost, setSelectedPost, setShowEditModal, postMargin, setPostType } = props;
   const { currentUser } = useAuth();
   const userProfileUrl = `/user-profile/${user._id}`;
 
@@ -22,9 +22,14 @@ const Post = (props) => {
     return formattedDate + ' - ' + formattedTime;
   }
 
+  /**
+   * Opens the edit modal.
+   * @param {Object} post - The post to be edited. Not sure I even need this parameter tbh.
+   */
   const openModal = (post) => {
     setSelectedPost(post);
     setShowEditModal(true);
+    setPostType('textPost');
   }
 
   return (

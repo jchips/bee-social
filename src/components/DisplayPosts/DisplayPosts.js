@@ -7,16 +7,23 @@ import Header from '../Header/Header';
 import EditPostModal from './PostModals/EditPostModal';
 import './DisplayPosts.scss';
 import AddPostModal from './PostModals/AddPostModal';
+import AddImageButton from './AddImageButton';
+import ImagePost from './Post/ImagePost';
 
-const Home = (props) => {
-  const { posts, setPosts, users, user } = props;
+const DisplayPosts = (props) => {
+  const { posts, setPosts, users, user, imgPosts } = props;
   const [error, setError] = useState('');
   const [postWidth, setPostWidth] = useState('17rem');
   const [postMargin, setPostMargin] = useState('5px 3px');
   const [rowConfig, setRowConfig] = useState('auto');
+
+  // text posts
   const [selectedPost, setSelectedPost] = useState({});
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+
+  const [postType, setPostType] = useState('imgPost');
+
   const { currentUser } = useAuth();
 
   /**
@@ -109,19 +116,34 @@ const Home = (props) => {
     <div className='feed col-lg-10 col-sm-12'>
       <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
       {(users || currentUser.uid === user.uid) && (
-        <div className='add-post text-center'>
-          <Button variant='dark' onClick={() => setShowAddModal(true)} className='mt-2 button' style={{ backgroundColor: '#212529' }}>Add post</Button>
+        <div className='text-center'>
+          <Button variant='dark' onClick={() => setShowAddModal(true)} className='mt-2 button button-background'>Add post</Button>
+          <AddImageButton setError={setError} />
         </div>
       )}
       <div className="posts-container">
         <Row lg={rowConfig} sm={1} className='posts-display justify-content-center'>
           {error && <Alert variant='danger'>{error}</Alert>}
 
+          {(imgPosts.length > 0) && (imgPosts.map(imgPost =>
+            <Col lg md sm className='post-column' key={imgPost.id}>
+              <ImagePost
+                imgPost={imgPost}
+                user={users ? getUserOfPost(imgPost.userID) : user}
+                setPostType={setPostType}
+                postWidth={postWidth}
+                postMargin={postMargin}
+                setSelectedPost={setSelectedPost}
+                setShowEditModal={setShowEditModal}
+              />
+            </Col>
+          ))}
           {(posts.length > 0) && (posts.map(post =>
             <Col lg md sm className='post-column' key={post._id}>
               <Post
                 post={post}
                 user={users ? getUserOfPost(post.uid) : user}
+                setPostType={setPostType}
                 postWidth={postWidth}
                 postMargin={postMargin}
                 deletePost={deletePost}
@@ -131,7 +153,6 @@ const Home = (props) => {
             </Col>
           ))}
         </Row>
-
       </div>
       <AddPostModal
         addPost={addPost}
@@ -141,6 +162,7 @@ const Home = (props) => {
       <EditPostModal
         editPost={editPost}
         selectedPost={selectedPost}
+        postType={postType}
         showEditModal={showEditModal}
         setShowEditModal={setShowEditModal}
       />
@@ -148,4 +170,4 @@ const Home = (props) => {
   );
 }
 
-export default Home;
+export default DisplayPosts;
