@@ -1,8 +1,12 @@
 # Bee Social (Social Posts App)
 
-Front-end to MERN full-stack app with CRUD operations that displays posts from multiple users and uses MongoDB to enable users to create, update and delete their posts.
+Bee Social is a web app for users who want to share posts with their friends. Users can sign up with their emails, log in, share posts with images or just plain text, edit & delete their posts, view other users' profiles, update their own profile (email/password), change their profile picture, and log out. There is also email validation and recovery if a user forgets their password. It's a fun and simple way to socialize with others by sharing a quick pic and comment!
 
-This is a web app for users who want to share posts with their friends and colleagues. Made to practice my auth skills and MERN stack development.
+MERN full-stack app with CRUD operations (this is the front-end).
+
+TLDR: Web app that displays image/text posts added from multiple users. Uses MongoDB and Firebase to store users and enable them to create, update and delete their posts.
+
+Note: The text posts used to be stored in MongoDB but after adding the ability to post images, I switched to using Cloud Firestore for all new posts.
 
 Live site: <https://social-posts-app.netlify.app/>
 
@@ -10,7 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Author: Jelani R
 
-## Version: 2.0.0
+## Version: 2.1.0
 
 ## Project Images
 
@@ -21,10 +25,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Architecture
 
-This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Firebase (auth), Bootstrap/React Bootstrap, React Router, MongoDB (backend), and Axios.
+This web app is built in React and uses: Firebase Auth, Cloud Firestore, Firebase Storage, Bootstrap/React Bootstrap, MongoDB (backend).
+
+Languages used: JavaScript/JSX and SCSS.
 
 ## Changelog
 
+- 05-04-2024 3:28pm - (2.1.0) - No longer adds new posts to MongoDB (only adds to Firestore database from here on out). Style edits.
 - 05-01-2024 3:38pm - (2.0.0) - Added the ability to upload images.
 - 04-22-2024 7:00am - (1.1.3) Refactored code because it was messy.
 - 10-04-2023 10:22pm - (1.1.2) Sends user a email verification link if their email is not verified when they try to log in after changing their email. Added images to README.

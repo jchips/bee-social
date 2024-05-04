@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ProgressBar, Toast, Button } from 'react-bootstrap';
-import AddImageModal from './PostModals/AddImageModal';
 import { useAuth } from '../../contexts/AuthContext';
-import { db, storage, ref, uploadBytesResumable, getDownloadURL } from '../../firebase';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import AddPostModal from './PostModals/AddPostModal';
 import { v4 as uuidV4 } from 'uuid';
+import { db, storage, ref, uploadBytesResumable, getDownloadURL } from '../../firebase';
 
-const AddImageButton = ({ setError }) => {
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc
+} from 'firebase/firestore';
+
+
+const AddPostButton = ({ setError }) => {
   const { currentUser } = useAuth();
   const [uploadingFiles, setUploadingFiles] = useState([]);
-  const [showImgModal, setShowImgModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   /**
    * Adds a text post to the Firestore database.
@@ -25,6 +36,7 @@ const AddImageButton = ({ setError }) => {
         caption,
         createdAt: serverTimestamp()
       });
+      setError('');
     } catch (err) {
       console.error(err);
       setError('Could not add post');
@@ -109,6 +121,7 @@ const AddImageButton = ({ setError }) => {
                       caption,
                       createdAt: serverTimestamp()
                     });
+                    setError('');
                   } catch (err) {
                     console.error(err);
                     setError('Could not add post');
@@ -121,10 +134,10 @@ const AddImageButton = ({ setError }) => {
   }
   return (
     <div className='add-image-btn'>
-      <Button variant='dark' onClick={() => setShowImgModal(true)} className='mt-2 button button-background'>Add image</Button>
-      <AddImageModal
-        showImgModal={showImgModal}
-        setShowImgModal={setShowImgModal}
+      <Button variant='dark' onClick={() => setShowAddModal(true)} className='button button-background'>Add post</Button>
+      <AddPostModal
+        showAddModal={showAddModal}
+        setShowAddModal={setShowAddModal}
         handleUpload={handleUpload}
       />
       {uploadingFiles.length > 0 && ReactDOM.createPortal(
@@ -156,4 +169,4 @@ const AddImageButton = ({ setError }) => {
   );
 }
 
-export default AddImageButton;
+export default AddPostButton;

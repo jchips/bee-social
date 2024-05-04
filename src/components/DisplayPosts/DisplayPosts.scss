@@ -5,7 +5,7 @@
 
   .posts-display {
     margin: auto auto;
-    padding: 5px 20px;
+    padding: 0 20px; // 5px 20px
   }
 
   .post-column {
@@ -14,7 +14,9 @@
   }
 
   .posts-container {
-    margin-bottom: 100px;
+    margin-bottom: 0px;
     /* Adjust this value as needed to create space above the footer */
+    // overflow-y: auto;
+    // height: 600px;
   }
 }

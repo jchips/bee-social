@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import Dashboard from './pages/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,9 +13,26 @@ import ForgotPassword from './pages/ForgotPassword';
 import UpdateLogin from './pages/UpdateLogin';
 import Footer from './components/Footer/Footer';
 import UpdateProfile from './pages/UpdateProfile/UpdateProfile';
-import UserProfile from './pages/UserProfile/UserProfile';
+import UserProfile from './pages/UserProfile/[UserProfile]';
 
 const App = () => {
+  const [postWidth, setPostWidth] = useState('17rem');
+  const [postMargin, setPostMargin] = useState('0px 3px 10px 3px'); // 5px 3px
+  const [rowConfig, setRowConfig] = useState('auto');
+
+  // Sets the page view so that the posts are displayed in stacks
+  const setStackedView = () => {
+    setPostWidth('30rem');
+    setRowConfig(1);
+    setPostMargin('0px auto 10px auto'); // 5px auto
+  }
+
+  // Sets the page view so that posts are displayed in a grid
+  const setGridView = () => {
+    setPostWidth('17rem');
+    setRowConfig('auto');
+    setPostMargin('0px 3px 10px 3px'); // 5px 3px
+  }
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -23,7 +40,7 @@ const App = () => {
 
           <Route path='/' element={
             <PrivateRoute style={{ display: 'flex', flexDirection: 'column' }}>
-              <Dashboard />
+              <Dashboard rowConfig={rowConfig} postWidth={postWidth} postMargin={postMargin} setStackedView={setStackedView} setGridView={setGridView} />
               <Footer />
             </PrivateRoute>
           } />
@@ -44,7 +61,7 @@ const App = () => {
 
           <Route path='/user-profile/:userId' element={
             <PrivateRoute>
-              <UserProfile />
+              <UserProfile rowConfig={rowConfig} postWidth={postWidth} postMargin={postMargin} setStackedView={setStackedView} setGridView={setGridView} />
               <Footer />
             </PrivateRoute>
           } />

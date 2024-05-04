@@ -1,56 +1,42 @@
 import React, { useState } from 'react';
-import { Row, Col, Alert, Button } from 'react-bootstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import Post from '../DisplayPosts/Post/Post';
-import Header from '../Header/Header';
+// import Header from '../Header/Header';
+import Post from './Post/Post';
+import TextPost from './Post/Post_old';
+// import AddImageButton from './AddImageButton';
 import EditPostModal from './PostModals/EditPostModal';
 import './DisplayPosts.scss';
-import AddPostModal from './PostModals/AddPostModal';
-import AddImageButton from './AddImageButton';
-import ImagePost from './Post/ImagePost';
 
 const DisplayPosts = (props) => {
-  const { posts, setPosts, users, user, imgPosts } = props;
+  const { posts, setTextPosts, users, user, textPosts, rowConfig, postWidth, postMargin } = props;
   const [error, setError] = useState('');
-  const [postWidth, setPostWidth] = useState('17rem');
-  const [postMargin, setPostMargin] = useState('5px 3px');
-  const [rowConfig, setRowConfig] = useState('auto');
-
-  // text posts
-  const [selectedPost, setSelectedPost] = useState({});
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-
+  // const [postWidth, setPostWidth] = useState('17rem');
+  // const [postMargin, setPostMargin] = useState('5px 3px');
+  // const [rowConfig, setRowConfig] = useState('auto');
   const [postType, setPostType] = useState('imgPost');
-
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState({});
   const { currentUser } = useAuth();
 
-  /**
-   * Adds a new post to the front of database and then re-renders the page so that the new
-   * post shows up for all users (at top of page).
-   * @param {Object} newPost - The new post to be added.
-   */
-  const addPost = (newPost) => {
-    let requestURL = `${process.env.REACT_APP_SERVER}/posts`;
-    axios.post(requestURL, newPost)
-      .then(response => {
-        setError('');
-        let postsCopy = [...posts];
-        postsCopy.unshift(response.data);
-        setPosts(postsCopy);
-      })
-      .catch(err => {
-        setError('Failed to add post');
-        console.error(err);
-      });
-  }
+  // // Sets the page view so that the posts are displayed in stacks
+  // const setStackedView = () => {
+  //   setPostWidth('30rem');
+  //   setRowConfig(1);
+  //   setPostMargin('5px auto');
+  // }
+
+  // // Sets the page view so that posts are displayed in a grid
+  // const setGridView = () => {
+  //   setPostWidth('17rem');
+  //   setRowConfig('auto');
+  //   setPostMargin('5px 3px');
+  // }
 
   /**
    * Updates the post in the database to reflect the new changes the user made.
    * Then re-renders the page so that the edits shows up on the page right away.
-   * TODO: try putting editPost() in a function component and using using the
-   * function in multiple components.
    * @param {Object} newPost - Post to be updated (with it's updated contents).
    */
   const editPost = (newPost) => {
@@ -60,7 +46,7 @@ const DisplayPosts = (props) => {
         setError('')
         let postsCopy = [...posts];
         postsCopy.splice(postsCopy.indexOf(selectedPost), 1, response.data);
-        setPosts(postsCopy);
+        setTextPosts(postsCopy);
       })
       .catch(err => {
         setError('Failed to edit post');
@@ -80,7 +66,7 @@ const DisplayPosts = (props) => {
         setError('');
         let postsCopy = [...posts];
         postsCopy.splice(postsCopy.indexOf(post), 1);
-        setPosts(postsCopy);
+        setTextPosts(postsCopy);
       })
       .catch(err => {
         console.error(err);
@@ -98,38 +84,23 @@ const DisplayPosts = (props) => {
     return userOfPost || currentUser;
   }
 
-  // Sets the page view so that the posts are displayed in stacks
-  const setStackedView = () => {
-    setPostWidth('30rem');
-    setRowConfig(1);
-    setPostMargin('5px auto');
-  }
-
-  // Sets the page view so that posts are displayed in a grid
-  const setGridView = () => {
-    setPostWidth('17rem');
-    setRowConfig('auto');
-    setPostMargin('5px 3px');
-  }
-
   return (
-    <div className='feed col-lg-10 col-sm-12'>
-      <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
-      {(users || currentUser.uid === user.uid) && (
+    <div className='feed'>
+      {/* <Header setGridView={setGridView} setStackedView={setStackedView} user={user} /> */}
+      {/* {(users || currentUser.uid === user.uid) && (
         <div className='text-center'>
-          <Button variant='dark' onClick={() => setShowAddModal(true)} className='mt-2 button button-background'>Add post</Button>
           <AddImageButton setError={setError} />
         </div>
-      )}
+      )} */}
       <div className="posts-container">
         <Row lg={rowConfig} sm={1} className='posts-display justify-content-center'>
           {error && <Alert variant='danger'>{error}</Alert>}
 
-          {(imgPosts.length > 0) && (imgPosts.map(imgPost =>
-            <Col lg md sm className='post-column' key={imgPost.id}>
-              <ImagePost
-                imgPost={imgPost}
-                user={users ? getUserOfPost(imgPost.userID) : user}
+          {(posts.length > 0) && (posts.map(post =>
+            <Col lg md sm className='post-column' key={post.id}>
+              <Post
+                post={post}
+                user={users ? getUserOfPost(post.userID) : user}
                 setPostType={setPostType}
                 postWidth={postWidth}
                 postMargin={postMargin}
@@ -138,9 +109,9 @@ const DisplayPosts = (props) => {
               />
             </Col>
           ))}
-          {(posts.length > 0) && (posts.map(post =>
+          {(textPosts.length > 0) && (textPosts.map(post =>
             <Col lg md sm className='post-column' key={post._id}>
-              <Post
+              <TextPost
                 post={post}
                 user={users ? getUserOfPost(post.uid) : user}
                 setPostType={setPostType}
@@ -154,11 +125,6 @@ const DisplayPosts = (props) => {
           ))}
         </Row>
       </div>
-      <AddPostModal
-        addPost={addPost}
-        showAddModal={showAddModal}
-        setShowAddModal={setShowAddModal}
-      />
       <EditPostModal
         editPost={editPost}
         selectedPost={selectedPost}

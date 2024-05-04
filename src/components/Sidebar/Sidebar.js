@@ -9,10 +9,10 @@ const Sidebar = () => {
   // const photoUrl = currentUser.photoURL ? currentUser.photoURL : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106';
 
   return (
-    <div className='sidebar col-lg-2 col-sm-12'>    
+    <div className='sidebar col-sm-2 col-12'>
       <div className='profile'>
         <div className='pfp-container'>
-          <img src={photoUrl} alt='Profile pic'/>
+          <img src={photoUrl} alt='Profile pic' />
         </div>
         {/* <p>{currentUser.displayName || ('user-' + currentUser.uid.substring(0, 10))}</p> */}
         <p>{currentUser.displayName}</p>

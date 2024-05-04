@@ -1,18 +1,26 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
-import axios from 'axios';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import Header from '../../components/Header/Header';
 import DisplayPosts from '../../components/DisplayPosts/DisplayPosts';
+import AddPostButton from '../../components/DisplayPosts/AddPostButton';
 
-const UserProfile = () => {
+const UserProfile = (props) => {
   const { userId } = useParams();
   const [user, setUser] = useState({});
+  const [textPosts, setTextPosts] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [imgPosts, setImgPosts] = useState([]);
   const [error, setError] = useState('');
+  const { currentUser } = useAuth();
+  // const [postWidth, setPostWidth] = useState('17rem');
+  // const [postMargin, setPostMargin] = useState('5px 3px');
+  // const [rowConfig, setRowConfig] = useState('auto');
+  const { setGridView, setStackedView, postWidth, postMargin, rowConfig } = props;
 
   // Fetches all the posts of whomever's profile was clicked on
   const getPosts = useCallback(async () => {
@@ -20,11 +28,11 @@ const UserProfile = () => {
       let requestURL = `${process.env.REACT_APP_SERVER}/posts?uid=${user.uid}`;
       try {
         let response = await axios.get(requestURL);
-        setError('');
-        setPosts(response.data.reverse());
+        setTextPosts(response.data.reverse());
         const q = query(collection(db, 'files'), where('userID', '==', user.uid), orderBy('createdAt'));
         const querySnapshot = await getDocs(q);
-        setImgPosts(querySnapshot.docs.map((doc) => formatDoc(doc)).reverse());
+        setPosts(querySnapshot.docs.map((doc) => formatDoc(doc)).reverse());
+        setError('');
       } catch (err) {
         console.error(err);
         setError('Could not fetch posts');
@@ -38,9 +46,9 @@ const UserProfile = () => {
       let requestURL = `${process.env.REACT_APP_SERVER}/users/${userId}`;
       axios.get(requestURL)
         .then(response => {
-          setError('');
           setUser(response.data);
           getPosts();
+          setError('');
         })
         .catch(err => {
           console.error(err);
@@ -48,7 +56,21 @@ const UserProfile = () => {
         });
     }
     findUserById();
-  }, [userId, getPosts]);
+  }, [userId, getPosts, posts]);
+
+  // // Sets the page view so that the posts are displayed in stacks
+  // const setStackedView = () => {
+  //   setPostWidth('30rem');
+  //   setRowConfig(1);
+  //   setPostMargin('5px auto');
+  // }
+
+  // // Sets the page view so that posts are displayed in a grid
+  // const setGridView = () => {
+  //   setPostWidth('17rem');
+  //   setRowConfig('auto');
+  //   setPostMargin('5px 3px');
+  // }
 
   /**
    * Formats the document object
@@ -67,9 +89,25 @@ const UserProfile = () => {
     <div className='user-profile dashboard text-center row'>
       {error && <Alert>{error}</Alert>}
       <Sidebar />
-      {(posts.length > 0 || imgPosts.length > 0) && (user.uid) && (
-        <DisplayPosts posts={posts} user={user} setPosts={setPosts} imgPosts={imgPosts} />
-      )}
+      <div className="col-sm-10 col-12">
+        <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
+        {(currentUser.uid === user.uid) && (
+          <div className='text-center add-button-container'>
+            <AddPostButton setError={setError} />
+          </div>
+        )}
+        {(textPosts.length > 0 || posts.length > 0) && (user.uid) && (
+          <DisplayPosts
+            textPosts={textPosts}
+            user={user}
+            setTextPosts={setTextPosts}
+            posts={posts}
+            rowConfig={rowConfig}
+            postWidth={postWidth}
+            postMargin={postMargin}
+          />
+        )}
+      </div>
     </div>
   );
 }

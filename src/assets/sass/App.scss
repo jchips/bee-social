@@ -34,8 +34,9 @@
 
 .button {
   display: inline-block;
-  padding: .55rem 1.2rem;
-  width: 170px;
+  padding: .55rem 1rem; // .55rem 1.2rem
+  // max-width: 170px;
+  width: 100%;
   border-radius: 10rem;
   color: #fff;
   text-transform: uppercase;
@@ -84,4 +85,14 @@
 // honestly can't remember why I even have a button background color...
 .button-background {
   background-color: #1e2a35;
+}
+
+.add-button-container {
+  margin: auto;
+  margin-bottom: 10px;
+  // margin-top: 3px;
+  // width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

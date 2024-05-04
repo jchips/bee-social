@@ -4,6 +4,10 @@
   padding: 10px;
   background-color: #2e475d;
 
+  .profile {
+    padding: 10px;
+  }
+
   img {
     height: 50px;
     width: 50px;
@@ -15,7 +19,8 @@
     background-color: $light-color;
     padding: 5px;
     border-radius: 10px;
-    margin: 10px 30px;
+    width: 100%;
+    // margin: 10px 30px;
     margin-top: 20px;
   }
 
