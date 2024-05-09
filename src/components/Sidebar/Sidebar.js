@@ -1,23 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import { useAuth } from '../../contexts/AuthContext';
 import './Sidebar.scss';
 
 const Sidebar = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
   const photoUrl = currentUser.photoURL;
-  // const photoUrl = currentUser.photoURL ? currentUser.photoURL : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106';
+
+  // Logs user out
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
-    <div className='sidebar col-sm-2 col-12'>
+    <div className='sidebar'>
       <div className='profile'>
         <div className='pfp-container'>
           <img src={photoUrl} alt='Profile pic' />
         </div>
-        {/* <p>{currentUser.displayName || ('user-' + currentUser.uid.substring(0, 10))}</p> */}
-        <p>{currentUser.displayName}</p>
-        {/* <Link to='/update-profile' className='btn mt-3'>Update Profile</Link> */}
-        <Link to='/update-profile' className='button mt-3'>Update Profile</Link>
+        <Link to={`/user-profile/${currentUser.uid}`} className='username-container button'>
+          <p>{currentUser.displayName}</p>
+        </Link>
+        <Link to='/update-profile' className='btn-container button'>Update Profile</Link>
+        <Button variant='link' className='btn-container button' onClick={handleLogout}>Log Out</Button>
       </div>
     </div>
   )

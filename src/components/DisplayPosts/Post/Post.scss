@@ -20,15 +20,25 @@
     }
 
     a {
-      color: white;
+      color: $theme-yellow;
       text-decoration: none;
       margin-bottom: 0;
     }
+
+    .card {
+      position: static;
+    }
   }
 
-  .card-head {
+  .card-title-container {
     display: flex;
     justify-content: space-between;
+  }
+
+  .card-title {
+    font-weight: 500;
+    font-family: 'Lexend Deca', sans-serif;
+    /* Google Font by Bonnie Shaver-Troup, Thomas Jockin, Santiago Orozco, Héctor Gómez, Superunion */
   }
 
   .trash-icon,
@@ -48,7 +58,11 @@
       border-radius: 10px;
       max-height: 250px;
       object-fit: contain;
-      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+      margin-bottom: 10px;
     }
+  }
+
+  .card-footer {
+    background-color: #fcf7e8;
   }
 }

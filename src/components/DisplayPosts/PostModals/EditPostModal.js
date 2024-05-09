@@ -25,11 +25,12 @@ class EditPostModal extends Component {
           title: updatedPost.title || this.props.selectedPost.title,
           caption: updatedPost.text || this.props.selectedPost.text
         })
+        this.props.setError('');
       } catch (err) {
         console.error(err);
+        this.props.setError('Failed to delete post');
       }
     }
-
     this.handleClose();
   }
 
@@ -55,7 +56,7 @@ class EditPostModal extends Component {
               <Form.Label>Post text</Form.Label>
               <Form.Control as="textarea" rows={3} name='text' defaultValue={selectedPost.text || selectedPost.caption} />
             </Form.Group>
-            <Button variant='primary' type='submit' onClick={this.handleClose}>Edit</Button>
+            <Button variant='primary' type='submit' className='button' onClick={this.handleClose}>Edit</Button>
           </Form>
         </Modal.Body>
       </Modal>

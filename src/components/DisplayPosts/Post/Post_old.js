@@ -1,14 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { FiTrash2, FiEdit3 } from 'react-icons/fi';
 import { useAuth } from '../../../contexts/AuthContext';
 import './Post.scss';
-import { Link } from 'react-router-dom';
 
 const Post = (props) => {
-  const { post, user, postWidth, deletePost, setSelectedPost, setShowEditModal, postMargin, setPostType } = props;
+  const {
+    post,
+    user,
+    postWidth,
+    setSelectedPost,
+    setShowEditModal,
+    setShowDeleteModal,
+    postMargin,
+    setPostType
+  } = props;
   const { currentUser } = useAuth();
-  const userProfileUrl = `/user-profile/${user._id}`;
+  const userProfileUrl = `/user-profile/${user.uid}`;
 
   /**
    * Formats the date/time the post was created into nice readable text.
@@ -22,14 +31,18 @@ const Post = (props) => {
     return formattedDate + ' - ' + formattedTime;
   }
 
-  /**
-   * Opens the edit modal.
-   * @param {Object} post - The post to be edited. Not sure I even need this parameter tbh.
-   */
-  const openModal = (post) => {
+  // Opens the edit modal.
+  const openEdit = () => {
     setSelectedPost(post);
-    setShowEditModal(true);
     setPostType('textPost');
+    setShowEditModal(true);
+  }
+
+  // opens the delete post modal
+  const openDelete = () => {
+    setSelectedPost(post);
+    setPostType('textPost');
+    setShowDeleteModal(true);
   }
 
   return (
@@ -41,11 +54,11 @@ const Post = (props) => {
         </Link>
       </Card.Header>
       <Card.Body>
-        <div className='card-head'>
+        <div className='card-title-container'>
           <Card.Title>{post.title}</Card.Title>
           <div>
-            {post.uid === currentUser.uid && <FiEdit3 className='edit-icon' onClick={() => openModal(post)} />}
-            {post.uid === currentUser.uid && <FiTrash2 className='trash-icon' onClick={() => deletePost(post)} />}
+            {post.uid === currentUser.uid && <FiEdit3 className='edit-icon' onClick={() => openEdit()} />}
+            {post.uid === currentUser.uid && <FiTrash2 className='trash-icon' onClick={() => openDelete()} />}
           </div>
         </div>
         <Card.Text>

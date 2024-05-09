@@ -3,3 +3,19 @@
   font-size: 0.7rem;
   font-weight: 300;
 }
+
+.delete-post-modal {
+  .delete-button {
+    &:before {
+      background-color: #dc3545;
+    }
+  }
+}
+
+.add-post-modal,
+.delete-post-modal {
+  .button {
+    width: fit-content;
+    border: none;
+  }
+}

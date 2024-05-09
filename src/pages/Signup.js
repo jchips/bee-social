@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ const Signup = () => {
 
       // Gives user a default profile when they first signup
       await updateUserProfile(userCredential.user, {
-        displayName: 'user-' + userCredential.user.uid.substring(0, 10), 
+        displayName: 'user-' + userCredential.user.uid.substring(0, 10),
         photoURL: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106'
       });
 
@@ -39,7 +39,6 @@ const Signup = () => {
       setError(err.message);
       console.log(err.message);
     }
-
     isLoading(false); // Occurs after the signup (so after the await)
   }
 
@@ -56,7 +55,7 @@ const Signup = () => {
     }
   }
 
-  const logoutUser = async () =>  {
+  const logoutUser = async () => {
     try {
       await logout();
     } catch (error) {
@@ -80,8 +79,9 @@ const Signup = () => {
       .then(response => console.log(response.data))
       .catch(err => console.error(err));
   }
+
   return (
-    <div>
+    <div className='signup'>
       <Card className='auth-card'>
         <Card.Title>Sign Up</Card.Title>
         <Card.Body>
@@ -101,7 +101,7 @@ const Signup = () => {
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control type='password' required />
             </Form.Group>
-            <Button variant='primary' type='submit' className='w-100 mt-2' disabled={loading}>Sign Up</Button>
+            <Button variant='primary' type='submit' className='w-100 mt-2 button' disabled={loading} style={{ border: '1px solid black' }}>Sign Up</Button>
           </Form>
         </Card.Body>
       </Card>

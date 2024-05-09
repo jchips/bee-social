@@ -6,7 +6,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { db } from '../firebase';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Header from '../components/Header/Header';
-import AddPostButton from '../components/DisplayPosts/AddPostButton';
 import DisplayPosts from '../components/DisplayPosts/DisplayPosts';
 
 const Dashboard = (props) => {
@@ -14,10 +13,7 @@ const Dashboard = (props) => {
   const [textPosts, setTextPosts] = useState([]);
   const [error, setError] = useState('');
   const { users, currentUser } = useAuth();
-  // const [postWidth, setPostWidth] = useState('17rem');
-  // const [postMargin, setPostMargin] = useState('5px 3px');
-  // const [rowConfig, setRowConfig] = useState('auto');
-  const { setGridView, setStackedView, postWidth, postMargin, rowConfig } = props;
+  const { setGridView, setStackedView, showStackBtn, postWidth, postMargin, rowConfig } = props;
 
   useEffect(() => {
     fetchAllTextPosts();
@@ -59,31 +55,18 @@ const Dashboard = (props) => {
     return formattedDoc;
   }
 
-  // // Sets the page view so that the posts are displayed in stacks
-  // const setStackedView = () => {
-  //   setPostWidth('30rem');
-  //   setRowConfig(1);
-  //   setPostMargin('5px auto');
-  // }
-
-  // // Sets the page view so that posts are displayed in a grid
-  // const setGridView = () => {
-  //   setPostWidth('17rem');
-  //   setRowConfig('auto');
-  //   setPostMargin('5px 3px');
-  // }
-
   return (
-    <div className='dashboard text-center row'>
-      {error && <Alert>{error}</Alert>}
+    <div className='dashboard text-center'>
+      <Header
+        setGridView={setGridView}
+        setStackedView={setStackedView}
+        showStackBtn={showStackBtn}
+        setError={setError}
+        users={users}
+      />
       <Sidebar />
-      <div className='col-sm-10 col-12'>
-        <Header setGridView={setGridView} setStackedView={setStackedView} />
-        {(users) && (
-          <div className='text-center add-button-container'>
-            <AddPostButton setError={setError} />
-          </div>
-        )}
+      <div className='main-content'>
+        {error && <Alert>{error}</Alert>}
         {users.length > 0 &&
           <DisplayPosts
             posts={posts}

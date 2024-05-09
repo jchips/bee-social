@@ -2,37 +2,20 @@ import React, { useState } from 'react';
 import { Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-// import Header from '../Header/Header';
 import Post from './Post/Post';
 import TextPost from './Post/Post_old';
-// import AddImageButton from './AddImageButton';
 import EditPostModal from './PostModals/EditPostModal';
+import DeletePostModal from './PostModals/DeletePostModal';
 import './DisplayPosts.scss';
 
 const DisplayPosts = (props) => {
   const { posts, setTextPosts, users, user, textPosts, rowConfig, postWidth, postMargin } = props;
   const [error, setError] = useState('');
-  // const [postWidth, setPostWidth] = useState('17rem');
-  // const [postMargin, setPostMargin] = useState('5px 3px');
-  // const [rowConfig, setRowConfig] = useState('auto');
   const [postType, setPostType] = useState('imgPost');
-  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { currentUser } = useAuth();
-
-  // // Sets the page view so that the posts are displayed in stacks
-  // const setStackedView = () => {
-  //   setPostWidth('30rem');
-  //   setRowConfig(1);
-  //   setPostMargin('5px auto');
-  // }
-
-  // // Sets the page view so that posts are displayed in a grid
-  // const setGridView = () => {
-  //   setPostWidth('17rem');
-  //   setRowConfig('auto');
-  //   setPostMargin('5px 3px');
-  // }
 
   /**
    * Updates the post in the database to reflect the new changes the user made.
@@ -44,7 +27,7 @@ const DisplayPosts = (props) => {
     axios.patch(requestURL, newPost)
       .then(response => {
         setError('')
-        let postsCopy = [...posts];
+        let postsCopy = [...textPosts];
         postsCopy.splice(postsCopy.indexOf(selectedPost), 1, response.data);
         setTextPosts(postsCopy);
       })
@@ -64,7 +47,7 @@ const DisplayPosts = (props) => {
     axios.delete(requestURL)
       .then(() => {
         setError('');
-        let postsCopy = [...posts];
+        let postsCopy = [...textPosts];
         postsCopy.splice(postsCopy.indexOf(post), 1);
         setTextPosts(postsCopy);
       })
@@ -86,12 +69,6 @@ const DisplayPosts = (props) => {
 
   return (
     <div className='feed'>
-      {/* <Header setGridView={setGridView} setStackedView={setStackedView} user={user} /> */}
-      {/* {(users || currentUser.uid === user.uid) && (
-        <div className='text-center'>
-          <AddImageButton setError={setError} />
-        </div>
-      )} */}
       <div className="posts-container">
         <Row lg={rowConfig} sm={1} className='posts-display justify-content-center'>
           {error && <Alert variant='danger'>{error}</Alert>}
@@ -106,6 +83,7 @@ const DisplayPosts = (props) => {
                 postMargin={postMargin}
                 setSelectedPost={setSelectedPost}
                 setShowEditModal={setShowEditModal}
+                setShowDeleteModal={setShowDeleteModal}
               />
             </Col>
           ))}
@@ -120,6 +98,7 @@ const DisplayPosts = (props) => {
                 deletePost={deletePost}
                 setSelectedPost={setSelectedPost}
                 setShowEditModal={setShowEditModal}
+                setShowDeleteModal={setShowDeleteModal}
               />
             </Col>
           ))}
@@ -131,6 +110,15 @@ const DisplayPosts = (props) => {
         postType={postType}
         showEditModal={showEditModal}
         setShowEditModal={setShowEditModal}
+        setError={setError}
+      />
+      <DeletePostModal
+        deletePost={deletePost}
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+        selectedPost={selectedPost}
+        postType={postType}
+        setError={setError}
       />
     </div>
   );

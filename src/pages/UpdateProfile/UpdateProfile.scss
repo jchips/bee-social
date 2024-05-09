@@ -1,7 +1,4 @@
 @import '../../assets/sass/colors.scss';
-// .pfp {
-//   object-fit: cover;
-// }
 
 .remove-pfp {
   color: #8d949e;
@@ -18,4 +15,17 @@
   text-transform: uppercase;
   font-size: 0.7rem;
   letter-spacing: .15rem;
+}
+
+#update-profile-btn {
+  border: 1px solid $theme-black;
+}
+
+.update-profile {
+  .btn {
+    border-radius: 10rem;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: .15rem;
+  }
 }

@@ -1,18 +1,31 @@
+@import '../../assets/sass/colors';
+
 .footer {
-  // position: absolute;
-  // position: fixed;
-  // bottom: 0;
-  // position: fixed;
-  // bottom: 0;
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $theme-yellow;
+  padding: 10px;
   background-color: #192733;
   width: 100%;
-  text-align: center;
-}
+  height: 55px;
+  font-weight: 700;
+  position: relative;
+  transition: bottom 0.5s;
 
-// @media screen and (min-width: 1083px) {
-//   .footer {
-//     position: fixed;
-//     bottom: 0;
-//   }
-// }
+  p {
+    margin: 0;
+  }
+
+  a,
+  button {
+    color: $theme-yellow;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: small;
+
+    &:hover {
+      color: $orangish-yellow;
+    }
+  }
+}

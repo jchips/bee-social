@@ -3,18 +3,20 @@
 .header {
   display: flex;
   justify-content: space-between;
-  background-color: $theme-yellow;
-  // color: $theme-purple;
-  padding: 10px;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border-bottom: 2px solid $theme-purple;
+  background-color: $theme-black;
+  color: $theme-yellow;
+  padding: 10px 20px;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
 
   .back-btn {
     cursor: pointer;
-    // padding: 5px;
     margin: 0 5px;
   }
 
@@ -23,6 +25,7 @@
     width: 50px;
     border-radius: 100%;
     object-fit: cover;
+    border: 4px solid $orangish-yellow;
   }
 
   h1 {
@@ -33,10 +36,14 @@
 
   .options {
     text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &>* {
       margin: 0 3px;
-      height: 30px;
+      margin-left: 10px;
+      cursor: pointer;
     }
   }
 }

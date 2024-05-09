@@ -115,9 +115,9 @@ const UpdateProfile = () => {
             <div className='text-center'>
               <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>
             </div>
-            <Button type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
+            <Button id='update-profile-btn' type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
           </Form>
-          <div className="text-center mt-3">
+          <div className="text-center mt-3 cancel-button">
             <Link to='/'>Cancel</Link>
           </div>
         </Card.Body>

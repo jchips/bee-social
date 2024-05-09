@@ -60,8 +60,9 @@ const Login = () => {
       console.error(err);
     }
   }
+
   return (
-    <div>
+    <div className='login'>
       <Card className='auth-card'>
         <Card.Title>Log In</Card.Title>
         <Card.Body>
@@ -77,7 +78,7 @@ const Login = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control type='password' required />
             </Form.Group>
-            <Button variant='primary' type='submit' className='w-100 mt-2' disabled={loading}>Log in</Button>
+            <Button variant='primary' type='submit' className='w-100 mt-2 button' disabled={loading} style={{ border: '1px solid black' }}>Log in</Button>
           </Form>
           <div className='w-100 text-center mt-3'>
             <Link to='/forgot-password'>Forgot Password?</Link>

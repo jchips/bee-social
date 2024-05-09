@@ -1,13 +1,6 @@
 @import '../../assets/sass/colors';
 
 .feed {
-  position: relative;
-
-  .posts-display {
-    margin: auto auto;
-    padding: 0 20px; // 5px 20px
-  }
-
   .post-column {
     display: flex;
     justify-content: center;
@@ -15,8 +8,5 @@
 
   .posts-container {
     margin-bottom: 0px;
-    /* Adjust this value as needed to create space above the footer */
-    // overflow-y: auto;
-    // height: 600px;
   }
 }

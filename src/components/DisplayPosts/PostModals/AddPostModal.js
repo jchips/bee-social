@@ -18,7 +18,7 @@ const AddPostModal = (props) => {
   }
 
   return (
-    <Modal show={showAddModal} onHide={handleClose}>
+    <Modal show={showAddModal} onHide={handleClose} className='add-post-modal'>
       <Modal.Header closeButton>
         <Modal.Title>New Post</Modal.Title>
       </Modal.Header>
@@ -36,7 +36,7 @@ const AddPostModal = (props) => {
             <Form.Label>Post image <span className="side-note">(optional - only jpgs are supported)</span></Form.Label>
             <Form.Control type="file" />
           </Form.Group>
-          <Button variant='primary' type='submit'>Post</Button>
+          <Button variant='primary' type='submit' className='button'>Post</Button>
         </Form>
       </Modal.Body>
     </Modal>

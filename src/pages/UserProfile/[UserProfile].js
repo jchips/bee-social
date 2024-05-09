@@ -3,24 +3,24 @@ import { useParams } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import axios from 'axios';
-import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../firebase';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
 import DisplayPosts from '../../components/DisplayPosts/DisplayPosts';
-import AddPostButton from '../../components/DisplayPosts/AddPostButton';
 
 const UserProfile = (props) => {
   const { userId } = useParams();
   const [user, setUser] = useState({});
   const [textPosts, setTextPosts] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const { currentUser } = useAuth();
-  // const [postWidth, setPostWidth] = useState('17rem');
-  // const [postMargin, setPostMargin] = useState('5px 3px');
-  // const [rowConfig, setRowConfig] = useState('auto');
-  const { setGridView, setStackedView, postWidth, postMargin, rowConfig } = props;
+  const { setGridView, setStackedView, showStackBtn, postWidth, postMargin, rowConfig } = props;
+
+  // Scroll to the top of the page
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Fetches all the posts of whomever's profile was clicked on
   const getPosts = useCallback(async () => {
@@ -46,8 +46,9 @@ const UserProfile = (props) => {
       let requestURL = `${process.env.REACT_APP_SERVER}/users/${userId}`;
       axios.get(requestURL)
         .then(response => {
-          setUser(response.data);
+          setUser(response.data[0]);
           getPosts();
+          setIsLoading(false);
           setError('');
         })
         .catch(err => {
@@ -57,20 +58,6 @@ const UserProfile = (props) => {
     }
     findUserById();
   }, [userId, getPosts, posts]);
-
-  // // Sets the page view so that the posts are displayed in stacks
-  // const setStackedView = () => {
-  //   setPostWidth('30rem');
-  //   setRowConfig(1);
-  //   setPostMargin('5px auto');
-  // }
-
-  // // Sets the page view so that posts are displayed in a grid
-  // const setGridView = () => {
-  //   setPostWidth('17rem');
-  //   setRowConfig('auto');
-  //   setPostMargin('5px 3px');
-  // }
 
   /**
    * Formats the document object
@@ -86,16 +73,18 @@ const UserProfile = (props) => {
   }
 
   return (
-    <div className='user-profile dashboard text-center row'>
-      {error && <Alert>{error}</Alert>}
+    <div className='user-profile dashboard text-center'>
+      <Header
+        setGridView={setGridView}
+        setStackedView={setStackedView}
+        user={user}
+        showStackBtn={showStackBtn}
+        setError={setError}
+        isLoading={isLoading}
+      />
       <Sidebar />
-      <div className="col-sm-10 col-12">
-        <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
-        {(currentUser.uid === user.uid) && (
-          <div className='text-center add-button-container'>
-            <AddPostButton setError={setError} />
-          </div>
-        )}
+      <div className="main-content">
+        {error && <Alert>{error}</Alert>}
         {(textPosts.length > 0 || posts.length > 0) && (user.uid) && (
           <DisplayPosts
             textPosts={textPosts}
