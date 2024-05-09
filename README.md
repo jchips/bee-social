@@ -1,8 +1,12 @@
-# Bee Social (Social Posts App)
+# Bee Social (social posts app)
 
-Front-end to MERN full-stack app with CRUD operations that displays posts from multiple users and uses MongoDB to enable users to create, update and delete their posts.
+Bee Social is a web app for users who want to share posts with their friends. Users can sign up with their emails, log in, share posts with images or just plain text, edit & delete their posts, view other users' profiles, update their own profile (email/password), change their profile picture, and log out. There is also email validation and recovery if a user forgets their password. It's a fun and simple way to socialize with others by sharing a quick pic and comment!
 
-This is a web app for users who want to share posts with their friends and colleagues. Made to practice my auth skills and MERN stack development.
+MERN full-stack app with CRUD operations (this is the front-end).
+
+TLDR: Web app that displays image/text posts added from multiple users. Uses MongoDB and Firebase to store users and enable them to create, edit, and delete their posts.
+
+Note: The text posts used to be stored in MongoDB but after adding the ability to post images, I switched to using Cloud Firestore for all new posts.
 
 Live site: <https://social-posts-app.netlify.app/>
 
@@ -10,21 +14,27 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Author: Jelani R
 
-## Version: 1.1.2
+## Version: 2.2.0
 
 ## Project Images
 
-![Picture 1](src/assets/imgs/bee-social1.png)
-![Picture 2](src/assets/imgs/bee-social2.png)
-![Picture 3](src/assets/imgs/bee-social3.png)
-![Picture 4](src/assets/imgs/bee-social4.png)
+![Picture 1](src/assets/imgs/bee-social-dashboard-grid.png)
+![Picture 2](src/assets/imgs/bee-social-dashboard-stack.png)
+![Picture 3](src/assets/imgs/bee-social-user-profile.png)
+![Picture 4](src/assets/imgs/bee-social-update-profile.png)
 
 ## Architecture
 
-This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Firebase (auth), Bootstrap/React Bootstrap, React Router, MongoDB (backend), and Axios.
+This web app is built in React and uses: Firebase Auth, Cloud Firestore, Firebase Storage, Bootstrap/React Bootstrap, MongoDB (backend).
+
+Languages used: JavaScript/JSX and SCSS.
 
 ## Changelog
 
+- 05-08-2024 5:29am - (2.2.0) - New UI. Added delete post confirmation.
+- 05-04-2024 3:28pm - (2.1.0) - No longer adds new posts to MongoDB (only adds to Firestore database from here on out). Style edits.
+- 05-01-2024 3:38pm - (2.0.0) - Added the ability to upload images.
+- 04-22-2024 7:00am - (1.1.3) Refactored code because it was messy.
 - 10-04-2023 10:22pm - (1.1.2) Sends user a email verification link if their email is not verified when they try to log in after changing their email. Added images to README.
 - 06-23-2023 6:55pm - (1.1.1) Fixed bug where profile wasn't updating for new users.
 - 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
@@ -35,8 +45,10 @@ This web app is built in React with JavaScript, JSX, and SASS/SCSS, and uses: Fi
 
 - [Firebase](https://firebase.google.com/)
 - [React Icons](https://react-icons.github.io/react-icons/)
-- [React Authentication Crash Course With Firebase And Routing by WebDevSimplied](https://youtu.be/PKwu15ldZ7k)
-<!-- - [Checking if a URL is active](https://stackoverflow.com/questions/3915634/checking-if-a-url-is-broken-in-javascript) -->
+- [uuid package](https://github.com/uuidjs/uuid#readme)
+- [React Authentication Crash Course With Firebase And Routing by Web Dev Simplified](https://youtu.be/PKwu15ldZ7k)
+- [How To Build A Google Drive Clone With Firebase by Web Dev Simplified](https://youtu.be/6XTRElVAZ9Y)
+- Google Font: 'Lexend Deca' by Bonnie Shaver-Troup, Thomas Jockin, Santiago Orozco, Héctor Gómez, Superunion.
 
 ## Project setup
 

@@ -1,49 +1,25 @@
 import React, { useState } from 'react';
-import { Row, Col, Alert, Button } from 'react-bootstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import Post from '../DisplayPosts/Post/Post';
-import Header from '../Header/Header';
+import Post from './Post/Post';
+import TextPost from './Post/Post_old';
 import EditPostModal from './PostModals/EditPostModal';
+import DeletePostModal from './PostModals/DeletePostModal';
 import './DisplayPosts.scss';
-import AddPostModal from './PostModals/AddPostModal';
 
-const Home = (props) => {
-  const { posts, setPosts, users, user } = props;
+const DisplayPosts = (props) => {
+  const { posts, setTextPosts, users, user, textPosts, rowConfig, postWidth, postMargin } = props;
   const [error, setError] = useState('');
-  const [postWidth, setPostWidth] = useState('17rem');
-  const [postMargin, setPostMargin] = useState('5px 3px');
-  const [rowConfig, setRowConfig] = useState('auto');
+  const [postType, setPostType] = useState('imgPost');
   const [selectedPost, setSelectedPost] = useState({});
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { currentUser } = useAuth();
-
-  /**
-   * Adds a new post to the front of database and then re-renders the page so that the new
-   * post shows up for all users (at top of page).
-   * @param {Object} newPost - The new post to be added.
-   */
-  const addPost = (newPost) => {
-    let requestURL = `${process.env.REACT_APP_SERVER}/posts`;
-    axios.post(requestURL, newPost)
-      .then(response => {
-        setError('');
-        let postsCopy = [...posts];
-        postsCopy.unshift(response.data);
-        setPosts(postsCopy);
-      })
-      .catch(err => {
-        setError('Failed to add post');
-        console.error(err);
-      });
-  }
 
   /**
    * Updates the post in the database to reflect the new changes the user made.
    * Then re-renders the page so that the edits shows up on the page right away.
-   * TODO: try putting editPost() in a function component and using using the
-   * function in multiple components.
    * @param {Object} newPost - Post to be updated (with it's updated contents).
    */
   const editPost = (newPost) => {
@@ -51,9 +27,9 @@ const Home = (props) => {
     axios.patch(requestURL, newPost)
       .then(response => {
         setError('')
-        let postsCopy = [...posts];
+        let postsCopy = [...textPosts];
         postsCopy.splice(postsCopy.indexOf(selectedPost), 1, response.data);
-        setPosts(postsCopy);
+        setTextPosts(postsCopy);
       })
       .catch(err => {
         setError('Failed to edit post');
@@ -71,9 +47,9 @@ const Home = (props) => {
     axios.delete(requestURL)
       .then(() => {
         setError('');
-        let postsCopy = [...posts];
+        let postsCopy = [...textPosts];
         postsCopy.splice(postsCopy.indexOf(post), 1);
-        setPosts(postsCopy);
+        setTextPosts(postsCopy);
       })
       .catch(err => {
         console.error(err);
@@ -91,61 +67,61 @@ const Home = (props) => {
     return userOfPost || currentUser;
   }
 
-  // Sets the page view so that the posts are displayed in stacks
-  const setStackedView = () => {
-    setPostWidth('30rem');
-    setRowConfig(1);
-    setPostMargin('5px auto');
-  }
-
-  // Sets the page view so that posts are displayed in a grid
-  const setGridView = () => {
-    setPostWidth('17rem');
-    setRowConfig('auto');
-    setPostMargin('5px 3px');
-  }
-
   return (
-    <div className='feed col-lg-10 col-sm-12'>
-      <Header setGridView={setGridView} setStackedView={setStackedView} user={user} />
-      {(users || currentUser.uid === user.uid) && (
-        <div className='add-post text-center'>
-          <Button variant='dark' onClick={() => setShowAddModal(true)} className='mt-2 button' style={{ backgroundColor: '#212529' }}>Add post</Button>
-        </div>
-      )}
+    <div className='feed'>
       <div className="posts-container">
         <Row lg={rowConfig} sm={1} className='posts-display justify-content-center'>
           {error && <Alert variant='danger'>{error}</Alert>}
 
           {(posts.length > 0) && (posts.map(post =>
-            <Col lg md sm className='post-column' key={post._id}>
+            <Col lg md sm className='post-column' key={post.id}>
               <Post
                 post={post}
+                user={users ? getUserOfPost(post.userID) : user}
+                setPostType={setPostType}
+                postWidth={postWidth}
+                postMargin={postMargin}
+                setSelectedPost={setSelectedPost}
+                setShowEditModal={setShowEditModal}
+                setShowDeleteModal={setShowDeleteModal}
+              />
+            </Col>
+          ))}
+          {(textPosts.length > 0) && (textPosts.map(post =>
+            <Col lg md sm className='post-column' key={post._id}>
+              <TextPost
+                post={post}
                 user={users ? getUserOfPost(post.uid) : user}
+                setPostType={setPostType}
                 postWidth={postWidth}
                 postMargin={postMargin}
                 deletePost={deletePost}
                 setSelectedPost={setSelectedPost}
                 setShowEditModal={setShowEditModal}
+                setShowDeleteModal={setShowDeleteModal}
               />
             </Col>
           ))}
         </Row>
-
       </div>
-      <AddPostModal
-        addPost={addPost}
-        showAddModal={showAddModal}
-        setShowAddModal={setShowAddModal}
-      />
       <EditPostModal
         editPost={editPost}
         selectedPost={selectedPost}
+        postType={postType}
         showEditModal={showEditModal}
         setShowEditModal={setShowEditModal}
+        setError={setError}
+      />
+      <DeletePostModal
+        deletePost={deletePost}
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+        selectedPost={selectedPost}
+        postType={postType}
+        setError={setError}
       />
     </div>
   );
 }
 
-export default Home;
+export default DisplayPosts;

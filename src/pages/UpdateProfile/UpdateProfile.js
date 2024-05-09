@@ -35,6 +35,7 @@ const UpdateProfile = () => {
     try {
       await updateUserProfile(currentUser, updateProfile);
       navigate('/');
+      window.location.reload(); // can remove if I would rather refresh manually
     } catch (err) {
       console.error(err)
       setError('Failed to update profile');
@@ -54,7 +55,7 @@ const UpdateProfile = () => {
     setProfileImg(e.target.value);
   }
 
-  /** 
+  /**
    * Runs if the photo URL doesn't lead to an image or is broken.
    * Sets the profile pic (pfp) to the default image.
    */
@@ -80,12 +81,12 @@ const UpdateProfile = () => {
     <div className="update-profile">
       <Card className='auth-card' style={{ maxWidth: '30rem' }}>
         <Card.Title>Update Profile</Card.Title>
-        <Card.Img 
+        <Card.Img
           src={profileImg}
           variant='top'
           alt='Profile image'
           ref={pfp}
-          onError={handleImageError} 
+          onError={handleImageError}
         />
         <Button className='remove-pfp' variant='link' type='button' onClick={removePfp}>Remove profile pic</Button>
         <Card.Body>
@@ -114,9 +115,9 @@ const UpdateProfile = () => {
             <div className='text-center'>
               <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>
             </div>
-            <Button type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
+            <Button id='update-profile-btn' type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
           </Form>
-          <div className="text-center mt-3">
+          <div className="text-center mt-3 cancel-button">
             <Link to='/'>Cancel</Link>
           </div>
         </Card.Body>

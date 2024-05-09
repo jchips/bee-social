@@ -1,52 +1,46 @@
-import React, { Component } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import { useAuthInClass } from '../../../contexts/AuthContext';
-// import { useAuth } from '../../../contexts/AuthContext';
+import React from 'react';
+import { Modal, Form, Button } from 'react-bootstrap';
+import './PostModal.scss';
 
-class AddPostModal extends Component {
-  static contextType = useAuthInClass();
+const AddPostModal = (props) => {
+  const { showAddModal, setShowAddModal, handleUpload } = props;
 
-  handleClose = () => {
-    this.props.setShowAddModal(false);
-  }
-
-  handleSubmit = (e) => {
+  // Handles submitting/adding the new post
+  const handleSubmit = (e) => {
     e.preventDefault(); // prevents instant refresh
-    const { currentUser } = this.context;
-    let newPost = {
-      title: e.target.title.value,
-      text: e.target.text.value,
-      uid: currentUser.uid,
-      dateCreated: Date.now()
-    }
-
-    this.props.addPost(newPost);
-
-     this.handleClose();
+    handleUpload(e.target.img.files[0], e.target.title.value, e.target.text.value);
+    handleClose();
   }
-  render() {
-    const { showAddModal } = this.props;
-    return (
-      <Modal show={showAddModal} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>New Post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group className="mb-3" controlId="title">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type='text' placeholder='Enter a title' maxLength={20} required />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="text">
-              <Form.Label>Post text</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder='Enter text' required />
-            </Form.Group>
-            <Button variant='primary' type='submit'>Post</Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    );
+
+  // Closes the modal
+  const handleClose = () => {
+    setShowAddModal(false);
   }
+
+  return (
+    <Modal show={showAddModal} onHide={handleClose} className='add-post-modal'>
+      <Modal.Header closeButton>
+        <Modal.Title>New Post</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="title">
+            <Form.Label>Title</Form.Label>
+            <Form.Control type='text' placeholder='Enter a title' maxLength={20} required />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="text">
+            <Form.Label>Text</Form.Label>
+            <Form.Control as="textarea" rows={3} placeholder='Enter text' required />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="img">
+            <Form.Label>Post image <span className="side-note">(optional - only jpgs are supported)</span></Form.Label>
+            <Form.Control type="file" />
+          </Form.Group>
+          <Button variant='primary' type='submit' className='button'>Post</Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
 }
 
 export default AddPostModal;

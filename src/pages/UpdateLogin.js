@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-  
+
 
 const UpdateLogin = () => {
   const [loading, isLoading] = useState(false);
@@ -26,11 +26,11 @@ const UpdateLogin = () => {
     setError('');
 
     // If the email addresses are changed, make sure to add the change to the promises[] array
-    if(email !== currentUser.email) {
+    if (email !== currentUser.email) {
       promises.push(updateEmail(email));
     }
 
-    // If a password is entered, adds the change to the promises[] array. 
+    // If a password is entered, adds the change to the promises[] array.
     // If a password isn't entered, the password will not change.
     if (password) {
       promises.push(updatePassword(password));
@@ -67,9 +67,9 @@ const UpdateLogin = () => {
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control type='password' placeholder='Leave blank to keep the same' />
             </Form.Group>
-            <Button variant='primary' type='submit' className='w-100 mt-2' disabled={loading}>Update</Button>
+            <Button variant='primary' type='submit' className='w-100 mt-2 button' disabled={loading}>Update</Button>
           </Form>
-          <div className='w-100 text-center mt-3'>
+          <div className='w-100 text-center mt-3 cancel-button'>
             <Link to='/update-profile'>Cancel</Link>
           </div>
         </Card.Body>

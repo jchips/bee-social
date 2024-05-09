@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -27,7 +27,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div>
+    <div className='forgot-password'>
       <Card className='auth-card'>
         <Card.Title>Password Reset</Card.Title>
         <Card.Body>
@@ -42,7 +42,7 @@ const ForgotPassword = () => {
               <Form.Label>Email</Form.Label>
               <Form.Control type='email' required />
             </Form.Group>
-            <Button variant='primary' type='submit' className='w-100 mt-2' disabled={loading}>Reset Password</Button>
+            <Button variant='primary' type='submit' className='w-100 mt-2 button' disabled={loading}>Reset Password</Button>
           </Form>
           <div className='w-100 text-center mt-3'>
             <Link to='/login'>Login</Link>

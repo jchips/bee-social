@@ -1,4 +1,6 @@
 @import '../../assets/sass/colors.scss';
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+// import for Outfit font added: @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Outfit:wght@100..900&display=swap');
 
 .auth-card {
   margin: auto;
@@ -22,22 +24,52 @@
   object-fit: cover;
 }
 
+.auth-card .btn {
+  border-radius: 10rem;
+}
+
+.cancel-button a {
+  color: $theme-black;
+
+  &:hover {
+    color: darken($theme-black, 55%);
+    font-weight: 700;
+  }
+}
+
+.login a,
+.signup a,
+.forgot-password a {
+  color: $theme-black;
+  font-weight: 700;
+
+  &:hover {
+    color: $orangish-yellow;
+  }
+}
+
 .row {
   --bs-gutter-x: 0rem;
 }
 
 .dashboard {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  // flex: 1;
-  position: relative;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-left: 230px;
+  padding-top: 80px;
 }
 
 .button {
   display: inline-block;
-  padding: .55rem 1.2rem;
-  width: 170px;
-  border-radius: 10rem;
-  color: #fff;
+  padding: .55rem 1rem; // .55rem 1.2rem
+  font-weight: 700;
+  width: 100%;
+  color: black;
   text-transform: uppercase;
   font-size: 0.7rem;
   letter-spacing: .15rem;
@@ -46,6 +78,8 @@
   overflow: hidden;
   z-index: 1;
   text-decoration: none;
+  border: 1px solid $theme-black;
+
   &:after {
     content: '';
     position: absolute;
@@ -53,10 +87,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: $theme-purple;
-    border-radius: 10rem;
+    background-color: $light-yellow;
     z-index: -2;
   }
+
   &:before {
     content: '';
     position: absolute;
@@ -64,15 +98,46 @@
     left: 0;
     width: 0%;
     height: 100%;
-    background-color: darken($theme-purple, 15%);
+    background-color: darken($light-yellow, 15%);
     transition: all .3s;
-    border-radius: 10rem;
     z-index: -1;
   }
+
   &:hover {
     color: #fff;
+
     &:before {
       width: 100%;
     }
+  }
+}
+
+.add-button-container {
+  margin: auto;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1400px) {
+  .main-content {
+    padding-left: 240px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    position: static;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+  }
+
+  .main-content {
+    padding-left: 0;
+    padding-top: 0;
   }
 }

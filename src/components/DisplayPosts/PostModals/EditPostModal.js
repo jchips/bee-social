@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from '../../../firebase';
 
 class EditPostModal extends Component {
 
   // Handles when the user submits the edit form.
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault(); // prevents instant refresh
 
     // Create a object from the form data
@@ -14,8 +16,21 @@ class EditPostModal extends Component {
     updatedPost.title = updatedPost.title || this.props.selectedPost.title;
     updatedPost.text = updatedPost.text || this.props.selectedPost.text;
 
-    this.props.editPost(updatedPost);
-
+    if (this.props.postType === 'textPost') {
+      this.props.editPost(updatedPost);
+    } else {
+      const postRef = doc(db, 'files', this.props.selectedPost.id);
+      try {
+        await updateDoc(postRef, {
+          title: updatedPost.title || this.props.selectedPost.title,
+          caption: updatedPost.text || this.props.selectedPost.text
+        })
+        this.props.setError('');
+      } catch (err) {
+        console.error(err);
+        this.props.setError('Failed to delete post');
+      }
+    }
     this.handleClose();
   }
 
@@ -39,9 +54,9 @@ class EditPostModal extends Component {
             </Form.Group>
             <Form.Group className="mb-3" controlId="text">
               <Form.Label>Post text</Form.Label>
-              <Form.Control as="textarea" rows={3} name='text' defaultValue={selectedPost.text} />
+              <Form.Control as="textarea" rows={3} name='text' defaultValue={selectedPost.text || selectedPost.caption} />
             </Form.Group>
-            <Button variant='primary' type='submit' onClick={this.handleClose}>Edit</Button>
+            <Button variant='primary' type='submit' className='button' onClick={this.handleClose}>Edit</Button>
           </Form>
         </Modal.Body>
       </Modal>

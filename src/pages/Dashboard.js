@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import axios from 'axios';
-import Sidebar from '../components/Sidebar/Sidebar';
-import DisplayPosts from '../components/DisplayPosts/DisplayPosts';
 import { useAuth } from '../contexts/AuthContext';
+import { db } from '../firebase';
+import Sidebar from '../components/Sidebar/Sidebar';
+import Header from '../components/Header/Header';
+import DisplayPosts from '../components/DisplayPosts/DisplayPosts';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [posts, setPosts] = useState([]);
+  const [textPosts, setTextPosts] = useState([]);
   const [error, setError] = useState('');
-  const { users } = useAuth();
+  const { users, currentUser } = useAuth();
+  const { setGridView, setStackedView, showStackBtn, postWidth, postMargin, rowConfig } = props;
 
   useEffect(() => {
-    fetchAllPosts();
+    fetchAllTextPosts();
   }, []);
 
-  // Fetches all posts
-  const fetchAllPosts = () => {
+  // Fetches all posts from Firestore database
+  useEffect(() => {
+    const q = query(collection(db, 'files'), orderBy('createdAt'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setPosts(snapshot.docs.map((doc) => formatDoc(doc)).reverse());
+    })
+    return unsubscribe;
+  }, [currentUser]);
+
+  // Fetches all text posts from MongoDB
+  const fetchAllTextPosts = () => {
     let requestURL = `${process.env.REACT_APP_SERVER}/posts`;
     axios.get(requestURL)
       .then(response => {
         setError('');
-        setPosts(response.data.reverse());
+        setTextPosts(response.data.reverse());
       })
       .catch(err => {
         setError('Could not load posts');
@@ -28,13 +42,44 @@ const Dashboard = () => {
       });
   }
 
+  /**
+   * Formats the document object
+   * @param {Object} doc - The document in the collection
+   * @returns {Object} - Formatted object
+   */
+  const formatDoc = (doc) => {
+    let formattedDoc = {
+      id: doc.id,
+      ...doc.data()
+    }
+    return formattedDoc;
+  }
+
   return (
-    <div className='dashboard text-center row'>
-      {error && <Alert>{error}</Alert>}
+    <div className='dashboard text-center'>
+      <Header
+        setGridView={setGridView}
+        setStackedView={setStackedView}
+        showStackBtn={showStackBtn}
+        setError={setError}
+        users={users}
+      />
       <Sidebar />
-      {users.length > 0 &&
-        <DisplayPosts posts={posts} users={users} setPosts={setPosts} />
-      }
+      <div className='main-content'>
+        {error && <Alert>{error}</Alert>}
+        {users.length > 0 &&
+          <DisplayPosts
+            posts={posts}
+            users={users}
+            setTextPosts={setTextPosts}
+            textPosts={textPosts}
+            setPosts={setPosts}
+            rowConfig={rowConfig}
+            postWidth={postWidth}
+            postMargin={postMargin}
+          />
+        }
+      </div>
     </div>
   )
 }
