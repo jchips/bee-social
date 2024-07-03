@@ -29,6 +29,7 @@ const Sidebar = () => {
           <p>{currentUser.displayName}</p>
         </Link>
         <Link to='/update-profile' className='btn-container button'>Update Profile</Link>
+        <Link to='/settings' className='btn-container button'>Settings</Link>
         <Button variant='link' className='btn-container button' onClick={handleLogout}>Log Out</Button>
       </div>
     </div>

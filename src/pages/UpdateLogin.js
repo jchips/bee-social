@@ -3,13 +3,17 @@ import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-
 const UpdateLogin = () => {
   const [loading, isLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const { currentUser, updateEmail, updatePassword } = useAuth();
 
+  /**
+   * Handles the update login form submission.
+   * @param {Event} e - The form submit event.
+   * @returns - Possibly returns an error.
+   */
   const handleSubmit = (e) => {
     e.preventDefault(); // prevents instant refresh
     let email = e.target.email.value;
@@ -44,7 +48,7 @@ const UpdateLogin = () => {
   }
 
   return (
-    <div>
+    <div className='update-login'>
       <Card className='auth-card'>
         <Card.Title>Update Login</Card.Title>
         <Card.Body>
@@ -52,7 +56,7 @@ const UpdateLogin = () => {
             <Alert variant='danger'>{error}</Alert>
           )}
           {message && (
-            <Alert variant='info'>{message}</Alert>
+            <Alert variant='success'>{message}</Alert>
           )}
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId='email' className='mb-3'>

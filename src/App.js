@@ -8,6 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import VerifyEmail from './pages/VerifyEmail';
 import ForgotPassword from './pages/ForgotPassword';
 import UpdateLogin from './pages/UpdateLogin';
+import Settings from './pages/Settings/Settings';
 import Footer from './components/Footer/Footer';
 import UpdateProfile from './pages/UpdateProfile/UpdateProfile';
 import UserProfile from './pages/UserProfile/[UserProfile]';
@@ -25,7 +26,7 @@ const App = () => {
   const setStackedView = () => {
     setPostWidth('30rem');
     setRowConfig(1);
-    setPostMargin('0px auto 10px auto'); // 5px auto
+    setPostMargin('0px 10px 10px 10px'); // 5px auto
     setShowStackBtn(true);
   }
 
@@ -64,6 +65,12 @@ const App = () => {
           <Route path='/update-profile' element={
             <PrivateRoute>
               <UpdateProfile />
+            </PrivateRoute>
+          } />
+
+          <Route path='/settings' element={
+            <PrivateRoute>
+              <Settings />
             </PrivateRoute>
           } />
 

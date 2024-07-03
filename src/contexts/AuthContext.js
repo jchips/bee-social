@@ -1,4 +1,3 @@
-// Code assisted by WebDevSimplied
 import React, { useContext, useState, useEffect } from 'react';
 import { auth } from '../firebase';
 import axios from 'axios';
@@ -11,7 +10,10 @@ import {
   updateEmail as updateEmailFirebase,
   updatePassword as updatePasswordFirebase,
   updateProfile,
-  onAuthStateChanged
+  deleteUser,
+  onAuthStateChanged,
+  reauthenticateWithCredential,
+  EmailAuthProvider
 } from 'firebase/auth';
 
 const AuthContext = React.createContext();
@@ -26,18 +28,43 @@ export function useAuthInClass() {
   return AuthContext;
 }
 
-// Renders its children
 export function AuthProvider({ children }) {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+
+  // Whenever component is unmounted it will unsubscribe because onAuthStateChanged() returns a method
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      fetchAllUsers();
+      setCurrentUser(user);
+      setLoading(false); // lets Firebase verify if there is a currentUser first
+    })
+
+    return unsubscribe;
+  }, []);
+
+  /**
+   * Fetches all users from MongoDB database so that I can find the user
+   * who is updating their profile.
+   */
+  const fetchAllUsers = () => {
+    let requestURL = `${process.env.REACT_APP_SERVER}/users`;
+    axios.get(requestURL)
+      .then(response => {
+        setUsers(response.data);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
   function emailVerification(currentUser) {
-    console.log(currentUser);
+    console.log(currentUser); // delete later
     return sendEmailVerification(currentUser);
   }
 
@@ -64,24 +91,45 @@ export function AuthProvider({ children }) {
   function updateUserProfile(user, newProfile) {
     return updateProfile(user, newProfile)
       .then(() => updateUserInDatabase(user))
-      // .then(response => console.log('testing', response.data))
-      // .then(() => console.log('profile updated'))
-      .catch(error => console.error(error));
+      .catch(err => console.error(err));
   }
 
   /**
-   * Fetches all users from MongoDB database so that I can find the user
-   * who is updating their profile.
+   * Reauthenticates the user (required for changing password or deleting account).
+   * @param {String} password - The password the user enters.
+   * @returns - A response string indicating whether reauthentication was successful or not.
    */
-  const fetchAllUsers = () => {
-    let requestURL = `${process.env.REACT_APP_SERVER}/users`;
-    axios.get(requestURL)
-      .then(response => {
-        setUsers(response.data);
+  function reauthenticateUser(password) {
+    let credential = EmailAuthProvider.credential(currentUser.email, password);
+    return reauthenticateWithCredential(currentUser, credential).then(() => {
+      console.log('user reauthenticated');
+      return 'reauthenticated successfully';
+    }).catch((err) => {
+      console.error(err);
+      return err.message;
+    });
+  }
+
+  /**
+   * Delete's the current user's account from Firebase auth and MongoDB.
+   * @param {Object} user - The current user.
+   * @returns A function deleting the user from Firebase and MongoDB.
+   */
+  function deleteUserAccount(user) {
+    let mongoUser = users.find(mongoUser => mongoUser.uid === user.uid);
+
+    return deleteUser(user)
+      .then(() => {
+        let requestURL = `${process.env.REACT_APP_SERVER}/users/${user.uid}`;
+        axios.delete(requestURL)
+          .then(() => {
+            let usersCopy = [...users];
+            usersCopy.splice(usersCopy.indexOf(mongoUser), 1);
+            setUsers(usersCopy);
+          })
+          .catch(err => console.error(err));
       })
-      .catch(err => {
-        console.error(err);
-      })
+      .catch(err => console.error(err));
   }
 
   /**
@@ -89,9 +137,7 @@ export function AuthProvider({ children }) {
    * Updates user information in MongoDB database
    */
   const updateUserInDatabase = (updatedUser) => {
-    fetchAllUsers();
     let mongoUser = users.find(user => user.uid === updatedUser.uid);
-    console.log('mongoUser', mongoUser);
     let requestURL = `${process.env.REACT_APP_SERVER}/users/${mongoUser._id}`;
     let updateUser = {
       displayName: updatedUser.displayName,
@@ -110,18 +156,6 @@ export function AuthProvider({ children }) {
       })
   }
 
-  // componentDidMount -> things only happen once when the component is mounted
-  // Whenever we unmount the component it will unsubscribe because onAuthStateChanged() returns a method
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      fetchAllUsers();
-      setCurrentUser(user);
-      setLoading(false); // lets Firebase verify if there is a currentUser first
-    })
-
-    return unsubscribe;
-  }, []);
-  
   // Everything in this value obj can be used in other components
   const value = {
     users,
@@ -133,12 +167,12 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updateUserProfile,
-    updatePassword
+    updatePassword,
+    reauthenticateUser,
+    deleteUserAccount
   }
 
   return (
-    // If there is a currentUser, then render the children components.
-    // All the children get everything in the context
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>

@@ -53,7 +53,7 @@ class EditPostModal extends Component {
               <Form.Control type='text' name='title' placeholder={selectedPost.title} maxLength={20} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="text">
-              <Form.Label>Post text</Form.Label>
+              <Form.Label>Text</Form.Label>
               <Form.Control as="textarea" rows={3} name='text' defaultValue={selectedPost.text || selectedPost.caption} />
             </Form.Group>
             <Button variant='primary' type='submit' className='button' onClick={this.handleClose}>Edit</Button>

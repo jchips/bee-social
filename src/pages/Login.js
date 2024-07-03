@@ -48,7 +48,8 @@ const Login = () => {
     try {
       await emailVerification(user);
     } catch (err) {
-      setError('Could not verify email');
+      // setError('Could not verify email');
+      console.error(err);
     }
   }
 

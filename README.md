@@ -16,7 +16,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Author: Jelani R
 
-## Version: 2.2.0
+## Version: 2.3.0
 
 ## Project Images
 
@@ -34,6 +34,7 @@ Languages used: JavaScript/JSX and SCSS.
 
 ## Changelog
 
+- 07-02-2024 9:16pm - (2.3.0) Users can now delete their accounts. Improved mobile viewing experience.
 - 05-08-2024 5:29am - (2.2.0) - New UI. Added delete post confirmation.
 - 05-04-2024 3:28pm - (2.1.0) - No longer adds new posts to MongoDB (only adds to Firestore database from here on out). Style edits.
 - 05-01-2024 3:38pm - (2.0.0) - Added the ability to upload images.

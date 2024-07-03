@@ -46,4 +46,11 @@
       cursor: pointer;
     }
   }
+
+  @media screen and (max-width: 767px) {
+    .currentUser-img {
+      height: 40px;
+      width: 40px;
+    }
+  }
 }
