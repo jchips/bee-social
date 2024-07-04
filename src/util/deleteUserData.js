@@ -22,7 +22,6 @@ async function deleteUserData(userId) {
         deleteDocs.push(deleteDoc(documentRef));
       });
       await Promise.all(deleteDocs);
-      console.log('Post(s) deleted from firestore successfully'); // delete later
     }
   } catch (error) {
     console.error(error);
@@ -34,7 +33,6 @@ async function deleteUserData(userId) {
       .then((res) => {
         res.items.forEach((itemRef) => {
           deleteObject(itemRef).then(() => {
-            console.log('File deleted successfully');
           }).catch((error) => {
             console.error(error);
           });
@@ -47,7 +45,6 @@ async function deleteUserData(userId) {
   // Deletes MongoDB posts (only for original users)
   try {
     let mongoPosts = await fetchAllMongoPosts(userId);
-    console.log('mongoPosts:', mongoPosts); // delete later
     if (mongoPosts.length > 0) {
       deleteMongoUserPosts(userId);
     }
