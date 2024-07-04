@@ -64,7 +64,6 @@ export function AuthProvider({ children }) {
   }
 
   function emailVerification(currentUser) {
-    console.log(currentUser); // delete later
     return sendEmailVerification(currentUser);
   }
 

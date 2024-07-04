@@ -10,6 +10,7 @@
 .update-login,
 .settings {
   padding: 0 10px;
+  padding-bottom: 60px;
 }
 
 .auth-card {
@@ -36,6 +37,12 @@
 
 .auth-card .btn {
   border-radius: 10rem;
+}
+
+.update-login .auth-card {
+  label {
+    font-weight: 600;
+  }
 }
 
 .cancel-button a {

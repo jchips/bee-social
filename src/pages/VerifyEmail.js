@@ -6,7 +6,7 @@ const VerifyEmail = () => {
   return (
     <div className="verify-email">
       <Card className='auth-card text-center'>
-        <p>Please check your email to verify your account.</p>
+        <p>Please check your inbox to verify your email address.</p>
         <p>Once verified, you can <Link to='/login'>log in</Link></p>
       </Card>
     </div>
