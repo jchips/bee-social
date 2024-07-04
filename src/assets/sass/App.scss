@@ -2,8 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 // import for Outfit font added: @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Outfit:wght@100..900&display=swap');
 
+.login,
+.signup,
+.verify-email,
+.forgot-password,
+.update-profile,
+.update-login,
+.settings {
+  padding: 0 10px;
+  padding-bottom: 60px;
+}
+
 .auth-card {
-  margin: auto;
+  margin: 0 auto;
   margin-top: 60px;
   max-width: 27rem;
   padding: 10px;
@@ -26,6 +37,12 @@
 
 .auth-card .btn {
   border-radius: 10rem;
+}
+
+.update-login .auth-card {
+  label {
+    font-weight: 600;
+  }
 }
 
 .cancel-button a {
@@ -109,6 +126,12 @@
     &:before {
       width: 100%;
     }
+  }
+}
+
+.delete-button {
+  &:before {
+    background-color: #dc3545;
   }
 }
 

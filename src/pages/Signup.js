@@ -37,7 +37,7 @@ const Signup = () => {
       navigate('/verify-email');
     } catch (err) {
       setError(err.message);
-      console.log(err.message);
+      console.error(err.message);
     }
     isLoading(false); // Occurs after the signup (so after the await)
   }
@@ -49,17 +49,8 @@ const Signup = () => {
   const verifyEmail = async (user) => {
     try {
       await emailVerification(user);
-      console.log('verify email', user);
     } catch (err) {
       setError('Could not verify email');
-    }
-  }
-
-  const logoutUser = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error(error);
     }
   }
 
@@ -78,6 +69,15 @@ const Signup = () => {
     axios.post(requestURL, newUser)
       .then(response => console.log(response.data))
       .catch(err => console.error(err));
+  }
+
+  // Logs the current user out
+  const logoutUser = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (

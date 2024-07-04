@@ -11,6 +11,7 @@ import DisplayPosts from '../components/DisplayPosts/DisplayPosts';
 const Dashboard = (props) => {
   const [posts, setPosts] = useState([]);
   const [textPosts, setTextPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const { users, currentUser } = useAuth();
   const { setGridView, setStackedView, showStackBtn, postWidth, postMargin, rowConfig } = props;
@@ -21,14 +22,16 @@ const Dashboard = (props) => {
 
   // Fetches all posts from Firestore database
   useEffect(() => {
+    setIsLoading(true);
     const q = query(collection(db, 'files'), orderBy('createdAt'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setPosts(snapshot.docs.map((doc) => formatDoc(doc)).reverse());
+      setIsLoading(false);
     })
     return unsubscribe;
   }, [currentUser]);
 
-  // Fetches all text posts from MongoDB
+  // Fetches all old text posts from MongoDB
   const fetchAllTextPosts = () => {
     let requestURL = `${process.env.REACT_APP_SERVER}/posts`;
     axios.get(requestURL)
@@ -65,7 +68,7 @@ const Dashboard = (props) => {
         users={users}
       />
       <Sidebar />
-      <div className='main-content'>
+      {!isLoading && <div className='main-content'>
         {error && <Alert>{error}</Alert>}
         {users.length > 0 &&
           <DisplayPosts
@@ -79,7 +82,7 @@ const Dashboard = (props) => {
             postMargin={postMargin}
           />
         }
-      </div>
+      </div>}
     </div>
   )
 }

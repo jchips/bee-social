@@ -7,6 +7,7 @@ import { db } from '../../firebase';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
 import DisplayPosts from '../../components/DisplayPosts/DisplayPosts';
+import './UserProfile.scss';
 
 const UserProfile = (props) => {
   const { userId } = useParams();
@@ -33,6 +34,7 @@ const UserProfile = (props) => {
         const querySnapshot = await getDocs(q);
         setPosts(querySnapshot.docs.map((doc) => formatDoc(doc)).reverse());
         setError('');
+        setIsLoading(false);
       } catch (err) {
         console.error(err);
         setError('Could not fetch posts');
@@ -47,10 +49,9 @@ const UserProfile = (props) => {
       axios.get(requestURL)
         .then(response => {
           setUser(response.data[0]);
-          getPosts();
-          setIsLoading(false);
           setError('');
         })
+        .then(getPosts())
         .catch(err => {
           console.error(err);
           setError('Could not load user');
@@ -83,7 +84,7 @@ const UserProfile = (props) => {
         isLoading={isLoading}
       />
       <Sidebar />
-      <div className="main-content">
+      {!isLoading && <div className="main-content">
         {error && <Alert>{error}</Alert>}
         {(textPosts.length > 0 || posts.length > 0) && (user.uid) && (
           <DisplayPosts
@@ -96,7 +97,10 @@ const UserProfile = (props) => {
             postMargin={postMargin}
           />
         )}
-      </div>
+        {(textPosts.length === 0) && (posts.length === 0) &&
+          <p className='mt-3 info-text'>No posts to display.</p>
+        }
+      </div>}
     </div>
   );
 }

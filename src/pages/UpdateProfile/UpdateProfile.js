@@ -3,13 +3,16 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Card, Form, InputGroup, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './UpdateProfile.scss';
+import Reauthenticate from '../../components/Reauthenticate';
 
 const UpdateProfile = () => {
-  const { currentUser, updateUserProfile } = useAuth();
-  const pfp = useRef(null);
   let [updateProfile] = useState({});
-  const [profileImg, setProfileImg] = useState(currentUser.photoURL)
   const [error, setError] = useState('');
+  const [reauthError, setReauthError] = useState('');
+  const [showReauthModal, setShowReauthModal] = useState(false);
+  const { currentUser, updateUserProfile } = useAuth();
+  const [profileImg, setProfileImg] = useState(currentUser.photoURL);
+  const pfp = useRef(null);
   const navigate = useNavigate();
   const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106';
 
@@ -35,7 +38,7 @@ const UpdateProfile = () => {
     try {
       await updateUserProfile(currentUser, updateProfile);
       navigate('/');
-      window.location.reload(); // can remove if I would rather refresh manually
+      // window.location.reload(); // can remove if prefer to refresh manually
     } catch (err) {
       console.error(err)
       setError('Failed to update profile');
@@ -77,6 +80,12 @@ const UpdateProfile = () => {
     return profileImg || 'https://photo-url-example.jpg';
   }
 
+  // Opens the reauthentication modal and resets its error message.
+  const openReauthModal = () => {
+    setReauthError('');
+    setShowReauthModal(true);
+  }
+
   return (
     <div className="update-profile">
       <Card className='auth-card' style={{ maxWidth: '30rem' }}>
@@ -113,15 +122,22 @@ const UpdateProfile = () => {
               />
             </InputGroup>
             <div className='text-center'>
-              <Link to='/update-login' className='btn btn-outline-dark mt-3 mb-3'>Change email or password</Link>
+              <Button variant='light' className='btn btn-outline-dark mt-3 mb-3' onClick={openReauthModal}>Change email or password</Button>
             </div>
             <Button id='update-profile-btn' type='submit' className='button w-100 text-center mt-3'>Update profile</Button>
           </Form>
-          <div className="text-center mt-3 cancel-button">
+          <div className='text-center mt-3 cancel-button'>
             <Link to='/'>Cancel</Link>
           </div>
         </Card.Body>
       </Card>
+      <Reauthenticate
+        showReauthModal={showReauthModal}
+        setShowReauthModal={setShowReauthModal}
+        reauthError={reauthError}
+        setReauthError={setReauthError}
+        reauthPurpose='update'
+      />
     </div>
   );
 }

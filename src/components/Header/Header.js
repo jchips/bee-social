@@ -14,11 +14,24 @@ const Header = (props) => {
 
   return (
     <div className='header'>
-      {user && <div>
-        <RiArrowGoBackLine className='back-btn' title='Go back' onClick={() => navigate(-1)}>Back</RiArrowGoBackLine>
-        {!isLoading && <img src={user.photoURL} alt={`${user.displayName} pfp`} />}
-      </div>}
-      {!isLoading && <h1>{user ? user.displayName + '\'s profile' : 'Bee Social 🐝'}</h1>}
+      {user && (
+        <div>
+          <RiArrowGoBackLine className='back-btn' title='Go back' onClick={() => navigate(-1)}>Back</RiArrowGoBackLine>
+          {!isLoading &&
+            <img
+              src={user.photoURL}
+              alt={`${user.displayName} pfp`}
+              className={currentUser.uid === user.uid ? 'currentUser-img' : null}
+            />
+          }
+        </div>
+      )}
+      {!isLoading &&
+        (user && (currentUser.uid === user.uid) ? (
+          <h1>Your profile</h1>
+        ) : (
+          <h1>{user ? user.displayName + '\'s profile' : 'Bee Social 🐝'}</h1>
+        ))}
       <div className='options'>
         {(users || (currentUser.uid === user.uid)) && (
           <div className='text-center'>

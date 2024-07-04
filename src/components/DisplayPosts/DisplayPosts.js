@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import Post from './Post/Post';
 import TextPost from './Post/Post_old';
 import EditPostModal from './PostModals/EditPostModal';
-import DeletePostModal from './PostModals/DeletePostModal';
+import DeleteModal from './PostModals/DeleteModal';
 import './DisplayPosts.scss';
 
 const DisplayPosts = (props) => {
@@ -112,13 +112,14 @@ const DisplayPosts = (props) => {
         setShowEditModal={setShowEditModal}
         setError={setError}
       />
-      <DeletePostModal
+      <DeleteModal
         deletePost={deletePost}
         showDeleteModal={showDeleteModal}
         setShowDeleteModal={setShowDeleteModal}
         selectedPost={selectedPost}
         postType={postType}
         setError={setError}
+        deleteType={'post'}
       />
     </div>
   );
