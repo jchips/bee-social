@@ -39,7 +39,6 @@ const Footer = () => {
 
   return (
     <div className='footer' ref={footerRef}>
-      <a href='https://www.jrosecow.com'>&copy; Jrosecow</a>
       <Button variant='link' onClick={handleLogout}>Log Out</Button>
     </div>
   );
