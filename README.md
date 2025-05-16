@@ -2,11 +2,11 @@
 
 ## Description
 
-Bee Social is a web app for users who want to share posts with their friends. Users can sign up with their emails, log in, share posts with images or just plain text, edit & delete their posts, view other users' profiles, update their own profile (email/password), change their profile picture, and log out. There is also email validation and recovery if a user forgets their password. It's a fun and simple way to socialize with others by sharing a quick pic and comment!
+Bee Social is a web app for users who want to share posts with their friends. 
 
-MERN full-stack app with CRUD operations (this is the front-end).
+Users can sign up with their email address, share image posts or plain text, edit & delete created posts, view other users' profiles, update profile and account information.
 
-TLDR: Web app that displays image/text posts added from multiple users. Uses MongoDB and Firebase to store users and enable them to create, edit, and delete their posts.
+> A fun and simple way to socialize with others by sharing a quick pic and comment.
 
 Note: The text posts used to be stored in MongoDB but after adding the ability to post images, I switched to using Cloud Firestore for all new posts.
 
@@ -28,9 +28,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Architecture
 
-This web app is built in React and uses: Firebase Auth, Cloud Firestore, Firebase Storage, Bootstrap/React Bootstrap, MongoDB (backend).
+Built with React, Firebase Auth, Cloud Firestore, Firebase Storage, Bootstrap, MongoDB
 
-Languages used: JavaScript/JSX and SCSS.
+Languages used: JavaScript and SASS.
 
 ## Changelog
 
