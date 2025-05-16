@@ -8,7 +8,7 @@ Users can sign up with their email address, share image posts or plain text, edi
 
 > A fun and simple way to socialize with others by sharing a quick pic and comment.
 
-Live site: [https://beesocialhub.netlify.app](https://beesocialhub.netlify.app)
+[Click to view live site](https://beesocialhub.netlify.app)
 
 ## Author: Jelani R
 
