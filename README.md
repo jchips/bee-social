@@ -8,11 +8,7 @@ Users can sign up with their email address, share image posts or plain text, edi
 
 > A fun and simple way to socialize with others by sharing a quick pic and comment.
 
-Note: The text posts used to be stored in MongoDB but after adding the ability to post images, I switched to using Cloud Firestore for all new posts.
-
-Live site: <https://beesocialhub.netlify.app/>
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live site: [https://beesocialhub.netlify.app](https://beesocialhub.netlify.app)
 
 ## Author: Jelani R
 
@@ -32,18 +28,9 @@ Built with React, Firebase Auth, Cloud Firestore, Firebase Storage, Bootstrap, M
 
 Languages used: JavaScript and SASS.
 
-## Changelog
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-- 07-02-2024 9:16pm - (2.3.0) Users can now delete their accounts. Improved mobile viewing experience.
-- 05-08-2024 5:29am - (2.2.0) - New UI. Added delete post confirmation.
-- 05-04-2024 3:28pm - (2.1.0) - No longer adds new posts to MongoDB (only adds to Firestore database from here on out). Style edits.
-- 05-01-2024 3:38pm - (2.0.0) - Added the ability to upload images.
-- 04-22-2024 7:00am - (1.1.3) Refactored code because it was messy.
-- 10-04-2023 10:22pm - (1.1.2) Sends user a email verification link if their email is not verified when they try to log in after changing their email. Added images to README.
-- 06-23-2023 6:55pm - (1.1.1) Fixed bug where profile wasn't updating for new users.
-- 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
-- 06-02-2023 6:50pm - (1.0.0) Users can perform CRUD operations on posts and update their profile.
-- 06-01-2023 3:00pm - (0.1.0) Initial commit with Firebase auth set up.
+> Note: The text posts used to be stored in MongoDB but after adding the ability to post images, I switched to using Cloud Firestore for all new posts.
 
 ## Resources
 
@@ -78,69 +65,15 @@ Languages used: JavaScript and SASS.
 - Run the project using `npm start` in terminal.
 - You will have to use a real email address to sign up for the Bee Social app (one that you can access). If you don't want to use a personal one, you can use a temporary one by Googling 'Temp mail' and finding a site you like to give you a temporary email address.
 
-## Available Scripts
+## Changelog
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 07-02-2024 9:16pm - (2.3.0) Users can now delete their accounts. Improved mobile viewing experience.
+- 05-08-2024 5:29am - (2.2.0) - New UI. Added delete post confirmation.
+- 05-04-2024 3:28pm - (2.1.0) - No longer adds new posts to MongoDB (only adds to Firestore database from here on out). Style edits.
+- 05-01-2024 3:38pm - (2.0.0) - Added the ability to upload images.
+- 04-22-2024 7:00am - (1.1.3) Refactored code because it was messy.
+- 10-04-2023 10:22pm - (1.1.2) Sends user a email verification link if their email is not verified when they try to log in after changing their email. Added images to README.
+- 06-23-2023 6:55pm - (1.1.1) Fixed bug where profile wasn't updating for new users.
+- 06-07-2023 10:31pm - (1.1.0) Users can navigate to someone's profile by clicking a user's name on their post.
+- 06-02-2023 6:50pm - (1.0.0) Users can perform CRUD operations on posts and update their profile.
+- 06-01-2023 3:00pm - (0.1.0) Initial commit with Firebase auth set up.
